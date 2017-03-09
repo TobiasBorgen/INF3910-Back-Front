@@ -1,0 +1,18 @@
+{
+  "name": "ventus-server",
+  "version": "0.1.0",
+  "description": "Server for the Ventus project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js -t 00000273",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pontus Aurdal",
+  "license": "ISC",
+  "dependencies": {
+    "mqtt": "^2.4.0",
+    "optimist": "^0.6.1",
+    "socket.io": "^1.7.3",
+    "winston": "^2.3.1"
+  }
+}
