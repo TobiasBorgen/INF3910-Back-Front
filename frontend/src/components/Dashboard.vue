@@ -20,11 +20,13 @@ export default {
 	sockets: {
 		connect () {
 			this.socketStatus = 'Connected to socket'
-
-			this.$options.sockets.message = ({thing, data}) => {
-				if (data.state.hasOwnProperty('reported'))
-					this.things[thing] = data.state.reported
-			}
+		},
+		message ({thing, data}) {
+			if (data.state.hasOwnProperty('reported'))
+				this.things[thing] = data.state.reported
+		},
+		connect_error (a) {
+			this.socketStatus = 'Unable to connect'
 		}
 	}
 }
