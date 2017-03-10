@@ -12,7 +12,13 @@ const logger = require('./logger')
 const path = require('path')
 const io = require('socket.io')()
 
+/* Init last data to send new socket clients */
+LAST_DATA = null
+
 /* Init Socket.io */
+io.on('connection', (client) => {
+	client.emit('message', LAST_DATA)	
+})
 io.listen(3000)
 
 /* Init MQTT client */
@@ -27,9 +33,9 @@ const options = {
 const mqttClient = mqtt.init(options)
 
 /* Setup MQTT event listeners & connect */
-mqttClient.on('reconnect',	() => logger.warn('-- MQTT: reconnect', r))
-mqttClient.on('close',		() => logger.warn('-- MQTT: connection closed', r))
-mqttClient.on('error',		() => logger.error('-- MQTT: error, ', e))
+mqttClient.on('reconnect',	() => logger.warn('-- MQTT: reconnect'))
+mqttClient.on('close',		() => logger.warn('-- MQTT: connection closed'))
+mqttClient.on('error',		(e) => logger.error('-- MQTT: error, ', e))
 mqttClient.on('connect',	() => {
 	logger.info('-- MQTT: connected')
 	logger.info('-- MQTT: subscribing to ', TOPIC)
@@ -44,9 +50,10 @@ mqttClient.on('connect',	() => {
 		/* Relay incoming messages over socket */
 		mqttClient.on('message', (topic, message) => {
 			const data = JSON.parse(message)
+			LAST_DATA = {thing: argv.t, data}
 
 			logger.info('-- MQTT: got message, ', data)
-			io.emit('message', {thing: argv.t, data})
+			io.emit('message', LAST_DATA)
 		})
 	})
 })
