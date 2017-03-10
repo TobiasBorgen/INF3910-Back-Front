@@ -19,7 +19,7 @@ L.Icon.Default.mergeOptions({
 export default {
 	name: 'ThingMap',
 	props: {
-		style: {
+		pack: {
 			type: String,
 			default: 'dark-v9'
 		},
@@ -38,13 +38,18 @@ export default {
 	},
 	data () {
 		return {
-			map: null
+			map: null,
+			layer: null,
+			marker: null
 		}
 	},
 	computed: {
 		getCenter () {
 			return new L.LatLng(this.lat, this.lng)
 		},
+		getLayerUrl () {
+			return `https://api.mapbox.com/styles/v1/mapbox/${this.pack}/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHdudHVzIiwiYSI6ImNqMDNydGUyZTAwYjIyd3BmMXhid2hmaDgifQ.SqJ9z6hXH0D0w1QxdPU2Hw`
+		}
 	},
 	methods: {
 		update () {
@@ -61,6 +66,9 @@ export default {
 		}	
 	},
 	watch: {
+		pack () {
+			this.layer.setUrl(this.getLayerUrl)
+		},
 		zoom () {
 			this.map.setView(this.getCenter, this.zoom)
 		},
@@ -68,11 +76,12 @@ export default {
 		lng () { this.update() },
 	},
 	mounted () {
+		this.layer = new L.TileLayer(this.getLayerUrl)
 		this.map = L.map('thing-map', {
 			center: this.getCenter,
 			zoom: this.zoom,
 			scrollWheelZoom: false,
-			layers: new L.TileLayer(`https://api.mapbox.com/styles/v1/mapbox/${this.style}/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHdudHVzIiwiYSI6ImNqMDNydGUyZTAwYjIyd3BmMXhid2hmaDgifQ.SqJ9z6hXH0D0w1QxdPU2Hw`)
+			layers: this.layer
 		})
 		this.marker = new L.Marker(this.getCenter).addTo(this.map)
 	}
