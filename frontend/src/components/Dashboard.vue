@@ -1,10 +1,10 @@
 <template lang="pug">
 div(class="dashboard")
 	thing-map(
+	pack="light-v9"
 		v-bind:lat="pos.lat"
 		v-bind:lng="pos.lng"
 	)
-		
 	div(id="side")
 		pre {{ socketStatus }}, {{ pos }}
 	
@@ -67,5 +67,10 @@ export default {
 <style lang="scss" scoped>
 .dashboard {
 	height: 100%;
+	
+	.thing-map {
+		width: 50%;
+		float: left;
+	}
 }
 </style>
