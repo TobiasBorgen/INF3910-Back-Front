@@ -81,7 +81,8 @@ export default {
 			center: this.getCenter,
 			zoom: this.zoom,
 			scrollWheelZoom: false,
-			layers: this.layer
+			layers: this.layer,
+			attributionControl: false
 		})
 		this.marker = new L.Marker(this.getCenter).addTo(this.map)
 	}
