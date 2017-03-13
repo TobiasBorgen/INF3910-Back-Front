@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Splash from '@/components/Splash'
+import Front from '@/components/Front'
 import Login from '@/components/Login'
 import Dashboard from '@/components/dashboard/Dashboard'
 import Panel from '@/components/dashboard/Panel'
@@ -14,6 +15,7 @@ export default new Router({
 	mode: 'history',
 	routes: [
 		{ path: '/', component: Splash },
+		{ path: '/front', component: Front },
 		{ path: '/login', component: Login },
 		{ path: '/dashboard', component: Dashboard,
 			children: [
