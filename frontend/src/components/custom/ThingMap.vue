@@ -25,7 +25,7 @@ export default {
 		},
 		zoom: {
 			type: Number,
-			default: 14
+			default: 13
 		},
 		lat: {
 			type: String,
@@ -94,8 +94,11 @@ export default {
 	width: 100%;
 	height: 100%;
 	
-	a:hover {
-		text-decoration: none !important;
+	a {
+		&:hover {
+			text-decoration: none;
+		}
+		color: #2196F3;
 	}
 }
 </style>

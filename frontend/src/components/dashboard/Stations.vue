@@ -1,0 +1,22 @@
+<template lang="pug">
+div(class="widgets")
+
+	md-layout(class="widgets-container")
+		widget-things
+	
+</template>
+
+<script>
+import WidgetThings from '@/components/dashboard/widgets/Things'
+
+export default {
+	name: 'Stations',
+	components: {
+		WidgetThings
+	}
+}
+</script>
+
+<style lang="scss" scoped>
+
+</style>
