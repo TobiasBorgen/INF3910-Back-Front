@@ -9,10 +9,11 @@ class CloudConnect {
 		this.host = 'startiot.cc.telenorconnexion.com'
 		this.AWS = AWS
 		this.manifest = null
+	}
 
-		/* Load AWS manifest at init and fetch credentials */
-		this.loadManifest()
-			.then(() => { return this.getCredentials() })
+	/* Load AWS manifest */
+	init () {
+		return this.loadManifest()
 			.catch(error => console.log('Could not initialize CloudConnect:', error))
 	}
 
@@ -155,7 +156,7 @@ class CloudConnect {
 		}
 		return this.invoke('AuthLambda', loginPayload)
 			.then(account => {
-				accountData = account.user
+				accountData = account
 
 				/* Get AWS Cognito raised privilege credential
 				 * using the obtained Cloud Connect auth token.

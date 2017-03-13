@@ -4,6 +4,10 @@ md-card(class="card-loader")
 		v-bind:md-indeterminate="loading"
 		v-bind:md-progress="stateProgress"
 	)
+	div(
+		class="overlay"
+		v-if="loading"
+	)
 	slot
 </template>
 
@@ -30,6 +34,17 @@ export default {
 	
 	.md-progress {
 		margin-top: 0px;
+	}
+
+	.overlay {
+		margin-top: 4px;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		position: absolute;
+		background: rgba(255, 255, 255, .67);
+		z-index: 100;
 	}
 }
 </style>

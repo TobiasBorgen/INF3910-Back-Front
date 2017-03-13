@@ -7,7 +7,7 @@ md-layout(
 	md-flex-large="33"
 )
 	
-	card-loader
+	card-loader(:loading="!thingsInited")
 		md-card-header
 			div(class="md-title") Base Station
 			div(class="md-subhead")

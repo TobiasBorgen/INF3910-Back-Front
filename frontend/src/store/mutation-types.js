@@ -1,4 +1,6 @@
 /* Module App */
+export const APP_SET_CC_INITED = 'APP_SET_CC_INITED'
+export const APP_SET_THINGS_INITED = 'APP_SET_THINGS_INITED'
 export const APP_SET_THING_NAME = 'APP_SET_THING_NAME'
 
 /* Module Auth */

@@ -8,13 +8,7 @@ Vue.mixin({
 	data () {
 		return {
 			eventBus,
-			t,
-			lambda: this.$store.state,
-			config: {
-				thingName: '00000371',
-				rootDomain: 'UIT IFI course',
-				subDomain: 'vind'
-			}
+			t
 		}
 	},
 
@@ -23,7 +17,13 @@ Vue.mixin({
 			things: 'Thing/get',
 			thing: 'Thing/thing',
 			reported: 'Thing/reported'
-		})
+		}),
+		ccInited () {
+			return this.$store.state['App'].ccInited
+		},
+		thingsInited () {
+			return this.$store.state['App'].thingsInited
+		}
 	},
 
 	methods: {

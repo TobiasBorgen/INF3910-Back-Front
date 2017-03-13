@@ -67,30 +67,44 @@ export default {
 		return {
 		}
 	},
+	watch: {
+		ccInited () {
+			this.initDashboard()
+		}
+	},
 	mounted () {
-		/* Init dashboard by fetching all stations
-		 * under the same thing-type. MQTT will then
-		 * subscribe to all found thing topics.
-		 */
-		this.$store.dispatch('Thing/find', CONFIG.THING_TYPE)
-			.then(() => {
+		this.initDashboard()
+	},
+	methods: {
+		initDashboard () {
+			if (!this.ccInited) return
 
-				const things = this.$store.getters['Thing/get']()
+			/* Init dashboard by fetching all stations
+			 * under the same thing-type. MQTT will then
+			 * subscribe to all found thing topics.
+			 */
+			this.$store.dispatch('Thing/find', CONFIG.THING_TYPE)
+				.then(() => {
 
-				/* Make first thing selected */
-				this.$store.commit(this.t.APP_SET_THING_NAME, things[0].thingName)
+					const things = this.$store.getters['Thing/get']()
 
-				/* Load shadow from every thing */
-				let jobs = 0
-				things.forEach(thing => {
-					this.$store.dispatch('Thing/get', thing.thingName)
-						.then(() => {
-							jobs++
-							if (jobs >= things.length)
-								MQTT.init(this)
-						})
+					/* Make first thing selected */
+					this.$store.commit(this.t.APP_SET_THING_NAME, things[0].thingName)
+
+					/* Load shadow from every thing */
+					let jobs = 0
+					things.forEach(thing => {
+						this.$store.dispatch('Thing/get', thing.thingName)
+							.then(() => {
+								jobs++
+								if (jobs >= things.length) {
+									MQTT.init(this)
+									this.$store.commit(this.t.APP_SET_THINGS_INITED, true)
+								}
+							})
+					})
 				})
-			})
+		}
 	}
 }
 </script>

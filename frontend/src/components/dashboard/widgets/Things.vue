@@ -4,7 +4,7 @@ md-layout(
 	md-flex="100"
 )
 	
-	card-loader
+	card-loader(:loading="!thingsInited")
 		md-card-header
 			md-card-header-text
 				div(class="md-title") Stations
