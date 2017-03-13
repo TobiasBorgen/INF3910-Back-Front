@@ -4,7 +4,7 @@
   "description": "Server for the Vind project",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js -t 00000273",
+    "start": "node src/server.js -t 00000371",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Pontus Aurdal",

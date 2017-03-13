@@ -15,7 +15,7 @@ md-layout(
 			div Format: {{ reported('f') }}
 			div Temp: {{ reported('t') }}°C
 			div Speed: {{ reported('s') }} m/s
-			div Direction: {{ reported('d') }}°
+			div(class="direction") {{ reported('d') }}°
 </template>
 
 <script>
@@ -28,7 +28,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.widget-things {
-	
+.widget-measurements {
+	-md-card-content {
+		.direction {
+			display: block;
+			background: red;
+		}
+	}
 }
 </style>

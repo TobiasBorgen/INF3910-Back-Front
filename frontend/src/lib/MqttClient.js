@@ -25,8 +25,8 @@ class MqttClient {
 	connect () {
 		this.ctx.showSnackbar('MQTT: connected')
 
-		const topic = `sub/${CONFIG.ROOT_DOMAIN}/${CONFIG.THING_DOMAIN}/#`
-		this.mqtt.subscribe(topic)
+		const topic = `thing-update/${CONFIG.ROOT_DOMAIN}/${CONFIG.THING_DOMAIN}/00000371`
+		this.mqtt.subscribe(topic, {qos: 1})
 	}
 
 	close () {
@@ -34,7 +34,7 @@ class MqttClient {
 	}
 
 	error (e) {
-		this.ctx.showSnackbar(`MQTT: ${e.getMessage()}`)
+		this.ctx.showSnackbar(`MQTT: ${e}`)
 	}
 
 	message (topic, message) {

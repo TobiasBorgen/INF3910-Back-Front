@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "aws-mqtt-client": "0.0.5",
-    "aws-sdk": "^2.24.0",
+    "aws-sdk": "^2.27.0",
     "leaflet": "^1.0.3",
     "object-merge": "^2.5.1",
     "vue": "^2.2.2",
