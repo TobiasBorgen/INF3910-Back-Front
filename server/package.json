@@ -1,7 +1,7 @@
 {
-  "name": "ventus-server",
+  "name": "tempestates-server",
   "version": "0.1.0",
-  "description": "Server for the Ventus project",
+  "description": "Server for the Vind project",
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js -t 00000273",

@@ -1,7 +1,7 @@
 {
-  "name": "ventus-frontend",
+  "name": "vind-frontend",
   "version": "0.1.0",
-  "description": "Front end client for the Ventus project.",
+  "description": "Front end client for the Vind project.",
   "author": "Pwntus <pontus.edvard@gmail.com>",
   "private": true,
   "scripts": {
@@ -9,12 +9,16 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "aws-mqtt-client": "0.0.5",
+    "aws-sdk": "^2.24.0",
     "leaflet": "^1.0.3",
+    "object-merge": "^2.5.1",
     "vue": "^2.2.2",
     "vue-material": "^0.7.1",
     "vue-resource": "^1.2.1",
     "vue-router": "^2.2.0",
-    "vue-socket.io": "^2.1.0"
+    "vue-socket.io": "^2.1.0",
+    "vuex": "^2.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
