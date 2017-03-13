@@ -4,7 +4,7 @@ md-layout(
 	md-flex="100"
 )
 	
-	card-loader
+	card-loader(:loading="!thingsInited")
 		md-card-content(class="select")
 			md-input-container
 				label(for="things") Select Station
@@ -74,7 +74,6 @@ export default {
 .widget-summary {
 	.select {
 		max-width: 250px;
-		padding-top: 0;
 		padding-bottom: 0;
 
 		.md-input-container {

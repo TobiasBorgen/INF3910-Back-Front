@@ -3,32 +3,23 @@ import * as t from '@/store/mutation-types'
 import {CC} from '@/lib/CloudConnect'
 
 const state = {
-	domainName: null,
-	domainPath: null,
-	email: null,
-	firstName: null,
-	lastName: null,
-	roleName: null,
-	userName: null,
+	account: null
 }
 
 const mutations = {
 	[t.AUTH_LOGIN_RESPONSE] (state, account) {
-		state.domainName = account.domainName
-		state.domainPath = account.domainPath
-		state.email = account.email
-		state.firstName = account.firstName
-		state.lastName = account.lastName
-		state.roleName = account.roleName
-		state.userName = account.userName
+		state.account = account
 	}
 }
 
 const actions = {
-	login ({commit}, {username, password}) {
+	login ({commit, dispatch}, {username, password}) {
 		return CC.login(username, password)
 			.then((account) => {
-				commit(t.AUTH_LOGIN_RESPONSE, account)
+				commit(t.AUTH_LOGIN_RESPONSE, account.user)
+				/* Dispatch persistAccount to local storage */
+				dispatch('persistAccount', account, {root: true})
+				
 				return Promise.resolve()
 			})
 	}
