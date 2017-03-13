@@ -25,7 +25,7 @@ class MqttClient {
 	connect () {
 		this.ctx.showSnackbar('MQTT: connected')
 
-		const topic = `thing-update/${CONFIG.ROOT_DOMAIN}/${CONFIG.THING_DOMAIN}/00000371`
+		const topic = `thing-update${this.ctx.$store.state['Thing'].thingDomain}#`
 		this.mqtt.subscribe(topic, {qos: 1})
 	}
 
