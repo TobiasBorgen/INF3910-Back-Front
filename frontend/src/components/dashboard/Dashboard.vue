@@ -81,11 +81,15 @@ export default {
 				this.$store.commit(this.t.APP_SET_THING_NAME, things[0].thingName)
 
 				/* Load shadow from every thing */
+				let jobs = 0
 				things.forEach(thing => {
 					this.$store.dispatch('Thing/get', thing.thingName)
+						.then(() => {
+							jobs++
+							if (jobs >= things.length)
+								MQTT.init(this)
+						})
 				})
-
-				MQTT.init(this)
 			})
 	}
 }

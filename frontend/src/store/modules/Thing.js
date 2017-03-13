@@ -4,6 +4,7 @@ import * as t from '@/store/mutation-types'
 import {CC} from '@/lib/CloudConnect'
 
 const state = {
+	thingDomain: null,
 	things: null
 }
 
@@ -16,6 +17,9 @@ const mutations = {
 		for (i in copy) {
 			if (copy[i].thingName == data.thingName) break
 		}
+
+		/* Set state thingDomain */
+		state.thingDomain = data.domainTopic
 
 		/* Merge with store */
 		let merged = objectMerge(copy[i], data)
@@ -64,7 +68,8 @@ const actions = {
 				label: null,
 				shadow: null,
 				thingName,
-				thingType: null
+				thingType: null,
+				domainTopic: null
 			}
 		}
 		return CC.invoke('ThingLambda', payload)

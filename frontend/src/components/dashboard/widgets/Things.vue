@@ -25,7 +25,7 @@ md-layout(
 					)
 						md-table-cell {{ row.thingName }}
 						md-table-cell {{ row.createdAt }}
-						md-table-cell {{ row.domain.name }}
+						md-table-cell {{ row.domainTopic + row.thingName }}
 						md-table-cell
 							md-icon cloud
 </template>

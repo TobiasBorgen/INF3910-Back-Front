@@ -8,7 +8,5 @@ export const CONFIG = {
 
 	/* Cloud Connect configuration.
 	 */
-	THING_TYPE: '121',
-	THING_DOMAIN: 'vind',
-	ROOT_DOMAIN: 'UIT IFI course'
+	THING_TYPE: '121'
 }
