@@ -98,7 +98,6 @@ export default {
 		&:hover {
 			text-decoration: none;
 		}
-		color: #2196F3;
 	}
 }
 </style>

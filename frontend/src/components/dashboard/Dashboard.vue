@@ -2,7 +2,10 @@
 div.dashboard
 	
 	md-layout(md-hide-medium-and-up)
-		md-toolbar.top-toolbar(md-theme="toolbar")
+		md-whiteframe.top-toolbar(
+			md-tag="md-toolbar"
+			md-elavation="5"
+		)
 			md-button.md-icon-button(@click.native="$refs.sidenav.toggle()")
 				md-icon menu
 			h2.md-title(style="flex: 1") Vind
@@ -41,7 +44,11 @@ div.dashboard
 						p Settings
 
 	md-layout.wrapper
-		md-layout.menu(md-hide-small)
+		md-whiteframe.menu(
+			md-tag="md-layout"
+			md-elavation="5"
+			md-hide-small
+		)
 			md-list
 				md-list-item
 					h2.md-headline Vind
