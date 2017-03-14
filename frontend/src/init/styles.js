@@ -9,9 +9,15 @@ import '@/../node_modules/leaflet/dist/leaflet.css'
 import '@/assets/css/global.scss'
 
 Vue.material.registerTheme('default', {
-	primary: 'pink',
-	accent: 'pink',
-	warn: 'pink'
+	primary: {
+		color: 'indigo',
+		hue: 500	
+	},
+	accent: 'indigo',
+	warn: {
+		color: 'indigo',
+		hue: 400
+	}
 })
 
 Vue.material.registerTheme('toolbar', {
