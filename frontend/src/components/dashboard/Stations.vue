@@ -1,9 +1,7 @@
 <template lang="pug">
 div.widgets
-
 	md-layout.widgets-container
 		widget-things
-	
 </template>
 
 <script>

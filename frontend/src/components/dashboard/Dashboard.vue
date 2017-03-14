@@ -1,5 +1,5 @@
 <template lang="pug">
-div.dashboard
+.dashboard
 	
 	md-layout(md-hide-medium-and-up)
 		md-whiteframe.top-toolbar(

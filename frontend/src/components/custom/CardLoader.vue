@@ -4,7 +4,7 @@ md-card.card-loader
 		v-bind:md-indeterminate="loading"
 		v-bind:md-progress="stateProgress"
 	)
-	div.overlay(v-if="loading")
+	.overlay(v-if="loading")
 	slot
 </template>
 

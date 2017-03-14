@@ -8,12 +8,12 @@ md-layout.widget-measurements(
 	card-loader(:loading="!thingsInited")
 		md-card-header
 			md-card-header-text
-				div.md-title Measurements
+				.md-title Measurements
 		md-card-content
 			div Format: {{ reported('f') }}
 			div Temp: {{ reported('t') }}°C
 			div Speed: {{ reported('s') }} m/s
-			div.direction {{ reported('d') }}°
+			.direction {{ reported('d') }}°
 </template>
 
 <script>

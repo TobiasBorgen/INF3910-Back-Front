@@ -1,6 +1,5 @@
 <template lang="pug">
 .login
-
 	card-loader(:loading="loading")
 		md-card-header
 			.md-title Login
