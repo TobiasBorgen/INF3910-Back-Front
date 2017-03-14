@@ -27,7 +27,7 @@ export default {
 <style lang="scss" scoped>
 .widget-measurements {
 	.md-card-content {
-		padding-top: 100px;
+		padding-top: 100px !important;
 		text-align: center;
 		font-weight: 300;
 		
