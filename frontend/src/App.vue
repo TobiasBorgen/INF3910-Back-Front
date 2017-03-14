@@ -37,6 +37,7 @@ export default {
 				/* Fetch refreshToken from local storage */
 				const account = window.localStorage.getItem('account')
 				const refreshToken = JSON.parse(account).credentials.refreshToken
+				console.log(refreshToken)
 				CC.refreshCredentials(refreshToken)
 					.then(() => {
 						/* Signal CC initialization done */
