@@ -104,7 +104,7 @@ class CloudConnect {
 	/* Get AWS Cognito Credentials */
 	getCredentials (token = null) {
 		/* Don't fetch credentials if we already have them */
-		if (token == null && this.AWS.config.credentials !== null) return Promise.resolve()
+		//if (token == null && this.AWS.config.credentials !== null) return Promise.resolve()
 
 		this.AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 			IdentityPoolId: this.manifest.IdentityPool,
@@ -119,8 +119,10 @@ class CloudConnect {
 		return this.AWS.config.credentials.getPromise()
 	}
 
-	refreshCredentials () {
-		if (!this.AWS.config.credentials.refreshToken)
+	refreshCredentials (token = null) {
+		const refreshToken = (!token) ? this.AWS.config.credentials.refreshToken : token
+		
+		if (!refreshToken)
 			throw new Error('No Refresh Token')
 		
 		this.AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -131,7 +133,7 @@ class CloudConnect {
 		const refreshPayload = {
 			action: 'REFRESH',
 			attributes: {
-				refreshToken: this.AWS.config.credentials.refreshToken
+				refreshToken: refreshToken
 			}
 		}
 		return this.invoke('AuthLambda', refreshPayload)
