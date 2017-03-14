@@ -1,7 +1,6 @@
 <template lang="pug">
-div(class="splash")
-	md-button(
-		class="md-primary"
+.splash
+	md-button.md-primary(
 		@click.native="$router.push('/login')"
 	) Login
 </template>

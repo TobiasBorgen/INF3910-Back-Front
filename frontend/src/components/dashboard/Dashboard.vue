@@ -1,26 +1,21 @@
 <template lang="pug">
-div(class="dashboard")
+div.dashboard
 	
 	md-layout(md-hide-medium-and-up)
-		md-toolbar(
-			md-theme="toolbar"
-			class="top-toolbar"
-		)
-			md-button(
-				class="md-icon-button"
+		md-toolbar.top-toolbar(md-theme="toolbar")
+			md-button.md-icon-button(
 				@click.native=""
 			)
 				md-icon menu
-			h2(class="md-title" style="flex: 1") Vind
+			h2.md-title(style="flex: 1") Vind
 
-	md-layout(class="wrapper")
-		md-layout(
+	md-layout.wrapper
+		md-layout.menu(
 			md-hide-small
-			class="menu"
 		)
 			md-list
 				md-list-item
-					h2(class="md-headline") Vind
+					h2.md-headline Vind
 				md-list-item
 					router-link(
 						to="/dashboard"
@@ -49,12 +44,10 @@ div(class="dashboard")
 						md-icon settings
 						p Settings
 			
-		md-layout(
+		md-layout.main(
 			md-flex-small="100"
-			class="main"
 		)
-			router-view
-	
+			router-view	
 </template>
 
 <script>

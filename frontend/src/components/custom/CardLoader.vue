@@ -1,13 +1,10 @@
 <template lang="pug">
-md-card(class="card-loader")
-	md-progress(
+md-card.card-loader
+	md-progress.md-warn(
 		v-bind:md-indeterminate="loading"
 		v-bind:md-progress="stateProgress"
 	)
-	div(
-		class="overlay"
-		v-if="loading"
-	)
+	div.overlay(v-if="loading")
 	slot
 </template>
 

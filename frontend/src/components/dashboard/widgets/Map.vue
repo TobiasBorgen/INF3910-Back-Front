@@ -1,6 +1,5 @@
 <template lang="pug">
-md-layout(
-	class="widget-map"
+md-layout.widget-map(
 	md-flex-xsmall="100"
 	md-flex-small="100"
 	md-flex-medium="50"
@@ -9,8 +8,8 @@ md-layout(
 	
 	card-loader(:loading="!thingsInited")
 		md-card-header
-			div(class="md-title") Base Station
-			div(class="md-subhead")
+			div.md-title Base Station
+			div.md-subhead
 				md-icon location_on
 				span {{ latlng[0] }}, {{ latlng[1] }} - {{ place }}
 		md-card-content

@@ -1,5 +1,5 @@
 <template lang="pug">
-div(class="dashboard")
+.dashboard
 	div {{ socketStatus }}
 	div
 		b DATA:

@@ -1,11 +1,10 @@
 <template lang="pug">
-md-layout(
-	class="widget-summary"
+md-layout.widget-summary(
 	md-flex="100"
 )
 	
 	card-loader(:loading="!thingsInited")
-		md-card-content(class="select")
+		md-card-content.select
 			md-input-container
 				label(for="things") Select Station
 				md-select(
@@ -21,8 +20,8 @@ md-layout(
 
 		md-card-header
 			md-card-header-text
-				div(class="md-title") Summary
-				div(class="md-subhead")
+				div.md-title Summary
+				div.md-subhead
 					div
 						span {{ reported('tcxn', 'cellular', 'network_type') }}:
 						md-icon(

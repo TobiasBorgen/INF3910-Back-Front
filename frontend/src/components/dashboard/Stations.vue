@@ -1,7 +1,7 @@
 <template lang="pug">
-div(class="widgets")
+div.widgets
 
-	md-layout(class="widgets-container")
+	md-layout.widgets-container
 		widget-things
 	
 </template>

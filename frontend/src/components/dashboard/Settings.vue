@@ -1,5 +1,5 @@
 <template lang="pug">
-div(class="settings")
+div.settings
 	div Hi {{ lambda.Auth.userName }}!
 	
 </template>

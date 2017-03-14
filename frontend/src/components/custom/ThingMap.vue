@@ -1,6 +1,6 @@
 <template lang="pug">
-div(class="thing-map")
-	div(id="thing-map")
+div.thing-map
+	div.thing-map
 </template>
 
 <script>

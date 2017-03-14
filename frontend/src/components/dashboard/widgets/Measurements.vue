@@ -1,6 +1,5 @@
 <template lang="pug">
-md-layout(
-	class="widget-measurements"
+md-layout.widget-measurements(
 	md-flex-xsmall="100"
 	md-flex-small="100"
 	md-flex-medium="50"
@@ -10,12 +9,12 @@ md-layout(
 	card-loader(:loading="!thingsInited")
 		md-card-header
 			md-card-header-text
-				div(class="md-title") Measurements
+				div.md-title Measurements
 		md-card-content
 			div Format: {{ reported('f') }}
 			div Temp: {{ reported('t') }}°C
 			div Speed: {{ reported('s') }} m/s
-			div(class="direction") {{ reported('d') }}°
+			div.direction {{ reported('d') }}°
 </template>
 
 <script>
