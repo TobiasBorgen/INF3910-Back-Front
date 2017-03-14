@@ -1,7 +1,6 @@
 <template lang="pug">
 div.settings
-	div Hi {{ lambda.Auth.userName }}!
-	
+	div Hi!
 </template>
 
 <script>

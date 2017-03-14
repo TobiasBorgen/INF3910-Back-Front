@@ -1,11 +1,9 @@
 <template lang="pug">
-div.widgets
-
+.widgets
 	md-layout.widgets-container
 		widget-summary
 		widget-map
 		widget-measurements
-	
 </template>
 
 <script>

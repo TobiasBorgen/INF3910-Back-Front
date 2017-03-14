@@ -119,8 +119,13 @@ class CloudConnect {
 		return this.AWS.config.credentials.getPromise()
 	}
 
-	refreshCredentials (token = null) {
-		const refreshToken = (!token) ? this.AWS.config.credentials.refreshToken : token
+	refreshCredentials () {
+		const account = window.localStorage.getItem('account')
+		
+		if (typeof account === 'undefined')
+			throw new Error('No Refresh Token')
+		
+		const refreshToken = JSON.parse(account).credentials.refreshToken
 		
 		if (!refreshToken)
 			throw new Error('No Refresh Token')
@@ -138,7 +143,7 @@ class CloudConnect {
 		}
 		return this.invoke('AuthLambda', refreshPayload)
 			.then(account => {
-				return this.getCredentials(this.AWS.config.credentials.token)
+				return this.getCredentials(account.credentials.token)
 			})
 	}
 	

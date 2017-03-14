@@ -1,6 +1,6 @@
 <template lang="pug">
-div.thing-map
-	div#thing-map
+.thing-map
+	#thing-map
 </template>
 
 <script>

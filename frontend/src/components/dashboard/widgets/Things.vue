@@ -4,7 +4,7 @@ md-layout.widget-things(md-flex="100")
 	card-loader(:loading="!thingsInited")
 		md-card-header
 			md-card-header-text
-				div.md-title Stations
+				.md-title Stations
 		md-card-content
 			md-table
 				md-table-header

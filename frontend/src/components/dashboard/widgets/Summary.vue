@@ -17,8 +17,8 @@ md-layout.widget-summary(md-flex="100")
 					) {{ row.thingName }}
 		md-card-header
 			md-card-header-text
-				div.md-title Summary
-				div.md-subhead
+				.md-title Summary
+				.md-subhead
 					div
 						span {{ reported('tcxn', 'cellular', 'network_type') }}:
 						md-icon(

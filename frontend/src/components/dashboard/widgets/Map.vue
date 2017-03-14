@@ -8,13 +8,13 @@ md-layout.widget-map(
 	
 	card-loader(:loading="!thingsInited")
 		md-card-header
-			div.md-title Base Station
-			div.md-subhead
+			.md-title Base Station
+			.md-subhead
 				md-icon location_on
 				span {{ latlng[0] }}, {{ latlng[1] }} - {{ place }}
 		md-card-content
 			thing-map(
-				pack="outdoors-v9"
+				pack="light-v9"
 				v-bind:lat="latlng[0]"
 				v-bind:lng="latlng[1]"
 			)
