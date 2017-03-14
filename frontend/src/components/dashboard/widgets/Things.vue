@@ -1,7 +1,5 @@
 <template lang="pug">
-md-layout.widget-things(
-	md-flex="100"
-)
+md-layout.widget-things(md-flex="100")
 	
 	card-loader(:loading="!thingsInited")
 		md-card-header
