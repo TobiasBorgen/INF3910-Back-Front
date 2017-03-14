@@ -16,22 +16,31 @@ export default {
 
 		/* Init by fetching manifest */
 		CC.init()
-			.then(() => {
-				/* Check if an account is persisted */
-				return this.$store.dispatch('checkPersisted')
-			})
-			.then((token) => {
-				/* Fetch credentials. Token can be null */
-				return CC.getCredentials(token)
-			})
-			.then(() => {
-				/* Signal CC initialization done */
-				this.$store.commit(this.t.APP_SET_CC_INITED, true)
-			})
+			/* Check if an account is persisted */
+			.then(() => { return this.$store.dispatch('checkPersisted') })
+			/* Fetch credentials. Token can be null */
+			.then((token) => { return CC.getCredentials(token) })
+			/* Signal CC initialization done */
+			.then(() => { this.$store.commit(this.t.APP_SET_CC_INITED, true) })
+			
+			/* Token needs to be refreshed */
 			.catch(error => {
-				this.showSnackbar('Failed to authenticate')
-				// TODO:
-				// Destroy cached credentials > redirect to front
+				CC.refreshCredentials()
+					/* Dispatch persistAccount to local storage and
+					 * signal CC initialization done.
+					 */
+					.then(account => {
+						console.log(account)
+						this.$store.commit(`Auth/${this.t.AUTH_LOGIN_RESPONSE}`, account.user)
+						this.$store.dispatch('persistAccount', account)
+						this.$store.commit(this.t.APP_SET_CC_INITED, true)
+					})
+					.catch(error => {
+						console.log(error)
+						this.showSnackbar('Failed to authenticate')
+						// TODO:
+						// Destroy cached credentials > redirect to front
+					})
 			})
 	}
 }

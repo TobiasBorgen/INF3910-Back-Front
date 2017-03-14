@@ -135,6 +135,7 @@ class CloudConnect {
 		})
 		this.AWS.config.credentials.clearCachedId()
 		
+		let accountData = null
 		const refreshPayload = {
 			action: 'REFRESH',
 			attributes: {
@@ -143,8 +144,10 @@ class CloudConnect {
 		}
 		return this.invoke('AuthLambda', refreshPayload)
 			.then(account => {
+				accountData = account
 				return this.getCredentials(account.credentials.token)
 			})
+			.then(() => { return Promise.resolve(accountData) })
 	}
 	
 	/* Perform steps needed to create a Cognito Identity */
