@@ -3,16 +3,12 @@ div.dashboard
 	
 	md-layout(md-hide-medium-and-up)
 		md-toolbar.top-toolbar(md-theme="toolbar")
-			md-button.md-icon-button(
-				@click.native=""
-			)
+			md-button.md-icon-button
 				md-icon menu
 			h2.md-title(style="flex: 1") Vind
 
 	md-layout.wrapper
-		md-layout.menu(
-			md-hide-small
-		)
+		md-layout.menu(md-hide-small)
 			md-list
 				md-list-item
 					h2.md-headline Vind
@@ -24,30 +20,19 @@ div.dashboard
 						md-icon dashboard
 						p Dashboard
 				md-list-item
-					router-link(
-						to="/dashboard/update"
-					)
+					router-link(to="/dashboard/update")
 						md-icon cloud_upload
 						p Update
 				md-list-item
-					router-link(
-						to="/dashboard/stations"
-						exact
-					)
+					router-link(to="/dashboard/stations")
 						md-icon toys
 						p Stations
 				md-list-item
-					router-link(
-						to="/dashboard/settings"
-						exact
-					)
+					router-link(to="/dashboard/settings")
 						md-icon settings
 						p Settings
-			
-		md-layout.main(
-			md-flex-small="100"
-		)
-			router-view	
+		md-layout.main(md-flex-small="100")
+			router-view
 </template>
 
 <script>

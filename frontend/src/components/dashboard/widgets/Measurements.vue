@@ -5,7 +5,6 @@ md-layout.widget-measurements(
 	md-flex-medium="50"
 	md-flex-large="33"
 )
-	
 	card-loader(:loading="!thingsInited")
 		md-card-header
 			md-card-header-text

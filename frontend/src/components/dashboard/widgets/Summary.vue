@@ -1,7 +1,5 @@
 <template lang="pug">
-md-layout.widget-summary(
-	md-flex="100"
-)
+md-layout.widget-summary(md-flex="100")
 	
 	card-loader(:loading="!thingsInited")
 		md-card-content.select
@@ -17,7 +15,6 @@ md-layout.widget-summary(
 						v-bind:key="rowIndex"
 						v-bind:value="row.thingName"
 					) {{ row.thingName }}
-
 		md-card-header
 			md-card-header-text
 				div.md-title Summary
@@ -41,8 +38,6 @@ md-layout.widget-summary(
 
 			md-card-media(md-medium)
 				md-image(md-src="https://vuematerial.github.io/assets/card-weather.png")
-
-		
 </template>
 
 <script>
