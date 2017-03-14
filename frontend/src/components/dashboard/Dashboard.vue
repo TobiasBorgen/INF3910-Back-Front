@@ -3,9 +3,42 @@ div.dashboard
 	
 	md-layout(md-hide-medium-and-up)
 		md-toolbar.top-toolbar(md-theme="toolbar")
-			md-button.md-icon-button
+			md-button.md-icon-button(@click.native="$refs.sidenav.toggle()")
 				md-icon menu
 			h2.md-title(style="flex: 1") Vind
+	
+	md-layout(md-hide-medium-and-up)
+		md-sidenav.md-left(ref="sidenav")
+			md-list
+				md-list-item
+					router-link(
+						to="/dashboard"
+						exact
+						@click.native="$refs.sidenav.toggle()"
+					)
+						md-icon dashboard
+						p Dashboard
+				md-list-item
+					router-link(
+						to="/dashboard/update"
+						@click.native="$refs.sidenav.toggle()"
+					)
+						md-icon cloud_upload
+						p Update
+				md-list-item
+					router-link(
+						to="/dashboard/stations"
+						@click.native="$refs.sidenav.toggle()"
+					)
+						md-icon toys
+						p Stations
+				md-list-item
+					router-link(
+						to="/dashboard/settings"
+						@click.native="$refs.sidenav.toggle()"
+					)
+						md-icon settings
+						p Settings
 
 	md-layout.wrapper
 		md-layout.menu(md-hide-small)
@@ -130,12 +163,12 @@ export default {
 			flex: 0;
 
 			.md-list {
-				width: 220px;	
+				width: 304px;	
 			}
 		}
 
 		.main {
-			margin-left: 220px;
+			margin-left: 304px;
 		}
 	}
 
