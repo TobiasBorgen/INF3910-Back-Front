@@ -1,13 +1,12 @@
 <template lang="pug">
-md-layout(
-	class="widget-things"
+md-layout.widget-things(
 	md-flex="100"
 )
 	
 	card-loader(:loading="!thingsInited")
 		md-card-header
 			md-card-header-text
-				div(class="md-title") Stations
+				div.md-title Stations
 		md-card-content
 			md-table
 				md-table-header

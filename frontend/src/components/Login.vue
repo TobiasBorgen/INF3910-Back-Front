@@ -1,10 +1,10 @@
 <template lang="pug">
-div(class="login")
+.login
 
 	card-loader(:loading="loading")
 		md-card-header
-			div(class="md-title") Login
-			div(class="md-subhead") v0.1
+			.md-title Login
+			.md-subhead v0.1
 
 		md-card-content
 			md-input-container
