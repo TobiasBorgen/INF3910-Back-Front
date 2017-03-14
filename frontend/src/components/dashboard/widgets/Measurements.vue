@@ -10,9 +10,8 @@ md-layout.widget-measurements(
 			md-card-header-text
 				.md-title Measurements
 		md-card-content
-			div Format: {{ reported('f') }}
-			div Temp: {{ reported('t') }}°C
-			div Speed: {{ reported('s') }} m/s
+			.temp {{ reported('t') }}°C
+			.speed {{ reported('s') }} m/s
 			.direction {{ reported('d') }}°
 </template>
 
@@ -27,10 +26,21 @@ export default {
 
 <style lang="scss" scoped>
 .widget-measurements {
-	-md-card-content {
+	.md-card-content {
+		padding-top: 100px;
+		text-align: center;
+		font-weight: 300;
+		
+		.temp {
+			font-size: 2em;
+		}
+		
+		.speed {
+			font-size: 4em;
+			line-height: 100px;
+		}
 		.direction {
-			display: block;
-			background: red;
+			font-size: 2em;
 		}
 	}
 }
