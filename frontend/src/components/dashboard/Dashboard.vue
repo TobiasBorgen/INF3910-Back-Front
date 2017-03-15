@@ -158,6 +158,10 @@ export default {
 		position: fixed;
 		z-index: 100;
 	}
+	
+	.md-sidenav-content {
+		position: fixed;
+	}
 
 	.wrapper {
 		min-height: 100%;

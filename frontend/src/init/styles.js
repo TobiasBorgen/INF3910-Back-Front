@@ -11,12 +11,12 @@ import '@/assets/css/global.scss'
 Vue.material.registerTheme('default', {
 	primary: {
 		color: 'indigo',
-		hue: 500	
+		hue: 400	
 	},
 	accent: 'indigo',
 	warn: {
 		color: 'indigo',
-		hue: 400
+		hue: 300
 	}
 })
 

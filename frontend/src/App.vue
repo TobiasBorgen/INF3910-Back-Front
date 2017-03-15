@@ -30,13 +30,11 @@ export default {
 					 * signal CC initialization done.
 					 */
 					.then(account => {
-						console.log(account)
 						this.$store.commit(`Auth/${this.t.AUTH_LOGIN_RESPONSE}`, account.user)
 						this.$store.dispatch('persistAccount', account)
 						this.$store.commit(this.t.APP_SET_CC_INITED, true)
 					})
 					.catch(error => {
-						console.log(error)
 						this.showSnackbar('Failed to authenticate')
 						// TODO:
 						// Destroy cached credentials > redirect to front
