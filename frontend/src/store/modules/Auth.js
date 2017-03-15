@@ -15,7 +15,7 @@ const mutations = {
 const actions = {
 	login ({commit, dispatch}, {username, password}) {
 		return CC.login(username, password)
-			.then((account) => {
+			.then(account => {
 				commit(t.AUTH_LOGIN_RESPONSE, account.user)
 				/* Dispatch persistAccount to local storage */
 				dispatch('persistAccount', account, {root: true})
