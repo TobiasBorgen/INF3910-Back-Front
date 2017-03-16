@@ -2,24 +2,24 @@
 .widgets
 	md-layout.widgets-container
 		widget-summary
-		widget-graphs
+		widget-chart
 		widget-measurements
 		widget-map
 </template>
 
 <script>
 import WidgetSummary from '@/components/dashboard/widgets/Summary'
-import WidgetMap from '@/components/dashboard/widgets/Map'
+import WidgetChart from '@/components/dashboard/widgets/Chart'
 import WidgetMeasurements from '@/components/dashboard/widgets/Measurements'
-import WidgetGraphs from '@/components/dashboard/widgets/Graphs'
+import WidgetMap from '@/components/dashboard/widgets/Map'
 
 export default {
 	name: 'Panel',
 	components: {
 		WidgetSummary,
-		WidgetMap,
+		WidgetChart,
 		WidgetMeasurements,
-		WidgetGraphs
+		WidgetMap
 	}
 }
 </script>

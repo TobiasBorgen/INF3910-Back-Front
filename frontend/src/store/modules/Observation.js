@@ -3,6 +3,7 @@ import * as t from '@/store/mutation-types'
 import {CC} from '@/lib/CloudConnect'
 
 const state = {
+	time: null,
 	s: null,
 	d: null,
 	t: null
@@ -10,21 +11,35 @@ const state = {
 
 const mutations = {
 	[t.OBSERVATION_FIND_RESPONSE] (state, data) {
-		state.s = {}
-		state.d = {}
-		state.t = {}
+		state.time = []
+		state.s = []
+		state.d = []
+		state.t = []
 		
 		const buckets = data.aggregations.hist.buckets
 		buckets.forEach(bucket => {
-			state.s[bucket.key] = bucket.s.value
-			state.d[bucket.key] = bucket.d.value
-			state.t[bucket.key] = bucket.t.value
+			state.time.push(bucket.key)
+
+			const s = bucket.s.value ? bucket.s.value.toString().slice(0, 5) : null
+			const d = bucket.d.value ? bucket.d.value.toString().slice(0, 5) : null
+			const t = bucket.t.value ? bucket.t.value.toString().slice(0, 5) : null
+
+			state.s.push(s)
+			state.d.push(d)
+			state.t.push(t)
 		})
 	}
 }
 
 const actions = {
 	find ({commit}, {gte, lte, thingName}) {
+		const n_aggs = 40
+		const diff = parseInt((lte - gte).toString().slice(0, -3))
+		const fraction = diff / n_aggs
+		const interval = (fraction / n_aggs).toString() + 'm'
+
+		console.log(interval)
+
 		const query = {
 			action: 'FIND',
 			query: {
@@ -43,7 +58,7 @@ const actions = {
 					hist: {
 						date_histogram: {
 							field: 'timestamp',
-							interval: '5m',
+							interval,
 							time_zone: '+01:00',
 							min_doc_count: 1,
 							extended_bounds: {
