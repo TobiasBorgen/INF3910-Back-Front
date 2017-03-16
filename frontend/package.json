@@ -11,10 +11,10 @@
   "dependencies": {
     "aws-mqtt-client": "0.0.5",
     "aws-sdk": "^2.27.0",
+    "chart.js": "^2.5.0",
     "leaflet": "^1.0.3",
     "object-merge": "^2.5.1",
     "vue": "^2.2.2",
-    "vue-charts": "^0.2.1",
     "vue-material": "^0.7.1",
     "vue-resource": "^1.2.1",
     "vue-router": "^2.2.0",

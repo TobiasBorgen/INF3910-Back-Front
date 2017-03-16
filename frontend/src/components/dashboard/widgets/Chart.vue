@@ -9,46 +9,54 @@ md-layout.widget-things(
 	card-loader(:loading="!thingsInited")
 		md-tabs(md-fixed)
 			md-tab#speed(md-label="Wind Speed")
-				vue-chart(
-					chart-type="LineChart"
-					v-bind:packages="['line']"
-					v-bind:columns="charts.speed.columns"
-					v-bind:rows="charts.speed.rows"
-					v-bind:options="charts.speed.options"
+				thing-chart(
+					type="line"
+					label="Wind Speed"
+					v-bind:labels="labels"
+					v-bind:data="data_s"
 				)
 			md-tab#direction(md-label="Wind Direction")
-				.graph#direction-graph
+				thing-chart(
+					type="line"
+					label="Wind Direction"
+					v-bind:labels="labels"
+					v-bind:data="data_d"
+				)
 			md-tab#temperature(md-label="Temperature")
-				.graph#temperature-graph
+				thing-chart(
+					type="line"
+					label="Temperature"
+					v-bind:labels="labels"
+					v-bind:data="data_t"
+				)
 </template>
 
 <script>
 import CardLoader from '@/components/custom/CardLoader'
+import ThingChart from '@/components/custom/ThingChart'
 
 export default {
-	name: 'WidgetGraphs',
-	components: { CardLoader },
+	name: 'WidgetCHart',
+	components: { CardLoader, ThingChart },
 	data () {
 		return {
-			gte: (Date.now() - 30 * 60 * 1000),
-			lte: Date.now(),
-			charts: {
-				speed: {
-					columns: [{
-						type: 'string',
-						label: 'Time'
-					},{
-						type: 'number',
-						label: 'm/s'
-					}],
-					rows: [[20, 30],[30,50],[40, 10],[50,100]],
-					options: {
-						legend: { position: 'bottom' },
-						curveType: 'function'
-					}
-				}
-			}
+			gte: (Date.now() - 2 * 60 * 60 * 1000),
+			lte: Date.now()
 		}	
+	},
+	computed: {
+		labels () {
+			return this.$store.state['Observation'].time || []
+		},
+		data_s () {
+			return this.$store.state['Observation'].s || []
+		},
+		data_d () {
+			return this.$store.state['Observation'].d || []
+		},
+		data_t () {
+			return this.$store.state['Observation'].t || []
+		}
 	},
 	watch: {
 		thingsInited () {
@@ -67,21 +75,10 @@ export default {
 				lte: this.lte,
 				thingName: this.$store.state['App'].thingName
 			})
-		},
-		resizeGraph () {
-			
 		}
 	},
 	mounted () {
 		this.fetchData()
-	},
-	beforeRouteEnter (to, from, next) {
-		window.addEventListener('resize', this.resizeGraph)
-		next()
-	},
-	beforeRouteLeave (to, from, next) {
-		window.removeEventListener('resize', this.resizeGraph)
-		next()
 	}
 }
 </script>
