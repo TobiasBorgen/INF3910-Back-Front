@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Splash from '@/components/Splash'
-import Front from '@/components/Front'
 import Login from '@/components/Login'
 import Dashboard from '@/components/dashboard/Dashboard'
 import Panel from '@/components/dashboard/Panel'
