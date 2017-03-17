@@ -19,7 +19,9 @@
 </template>
 
 <script>
+//import '@/init/socket'
 import CardLoader from '@/components/custom/CardLoader'
+
 export default {
 	name: 'Splash',
 	data () {

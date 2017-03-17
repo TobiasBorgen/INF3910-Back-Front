@@ -123,7 +123,7 @@ const getters = {
 	thing: (state, getters, rootState) => (...props) => {
 		if (rootState.App.thingName === null) return null
 
-		const thing = getters['get'](rootState.App.thingName)
+		const thing = getters['get'](rootState['App'].thingName)
 		if (thing === null || typeof thing === 'undefined') return null
 
 		/* Traverse object and find requested prop */
