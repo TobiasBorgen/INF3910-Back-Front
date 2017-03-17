@@ -46,12 +46,10 @@ import CardLoader from '@/components/custom/CardLoader'
 export default {
 	name: 'WidgetSummary',
 	components: { CardLoader },
-	data () {
-		return {
-			selected: this.$store.state['App'].thingName
-		}
-	},
 	computed: {
+		selected () {
+			return this.$store.state['App'].thingName
+		},
 		cloud () {
 			return 'cloud'//(this.rssi > 0) ? 'cloud' : 'cloud_off'
 		}

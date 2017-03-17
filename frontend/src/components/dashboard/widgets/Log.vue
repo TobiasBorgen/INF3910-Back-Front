@@ -21,7 +21,7 @@ md-layout.widget-log(
 						v-bind:key="index"
 					)
 						md-table-cell {{ row.time }}
-						md-table-cell {{ row.data }}
+						md-table-cell {{ row.data }} m/s
 </template>
 
 <script>
@@ -50,7 +50,7 @@ export default {
 			if (!speed) return
 				
 			this.logs.unshift({
-				time: `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`,
+				time: `${('0' + now.getHours()).slice(-2)}:${('0' + now.getMinutes()).slice(-2)}:${('0' + now.getSeconds()).slice(-2)}`,
 				data: this.reported('s')
 			})
 		}
