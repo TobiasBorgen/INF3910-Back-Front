@@ -159,8 +159,11 @@ export default {
 		z-index: 100;
 	}
 	
-	.md-sidenav-content {
+	.md-sidenav {
+		top: 0;
+		bottom: 0;
 		position: fixed;
+		z-index: 99;
 	}
 
 	.wrapper {
