@@ -1,6 +1,9 @@
 <template lang="pug">
 .login
-	card-loader(:loading="loading")
+	card-loader(
+		v-bind:loading="loading"
+		v-bind:hidden="false"
+	)
 		md-card-header
 			.md-title Login
 			.md-subhead v0.1
@@ -57,7 +60,7 @@ export default {
 				})
 				.catch(error => {
 					this.showSnackbar(error)
-					this.loading = false
+					//this.loading = false
 				})
 		}
 	}

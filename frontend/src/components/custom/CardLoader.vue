@@ -4,7 +4,7 @@ md-card.card-loader
 		v-bind:md-indeterminate="loading"
 		v-bind:md-progress="stateProgress"
 	)
-	.overlay(v-if="loading")
+	.overlay(v-bind:class="{ visible: (loading && hidden) }")
 	slot
 </template>
 
@@ -15,6 +15,10 @@ export default {
 		loading: {
 			type: Boolean,
 			default: false
+		},
+		hidden: {
+			type: Boolean,
+			default: true
 		}
 	},
 	computed: {
@@ -29,19 +33,32 @@ export default {
 .card-loader {
 	width: 100%;
 	
-	.md-progress {
-		margin-top: 0px;
-	}
-
 	.overlay {
+		content: '';
 		margin-top: 4px;
 		left: 0;
 		right: 0;
 		top: 0;
 		bottom: 0;
 		position: absolute;
-		background: rgba(255, 255, 255, .67);
+		background: rgba(255, 255, 255, 1);
 		z-index: 100;
+		visibility: hidden;
+		opacity: 0;
+
+		transition: visibility .5s, opacity .5s ease-in-out;
+		-moz-transition: visibility .5s, opacity .5s ease-in-out;
+		-webkit-transition: visibility .5s, opacity .5s ease-in-out;
+
+		&.visible {
+			visibility: visible;
+			opacity: 1;
+		}
+	}
+	
+	.md-progress {
+		opacity: 1;
+		margin-top: 0px;
 	}
 }
 </style>

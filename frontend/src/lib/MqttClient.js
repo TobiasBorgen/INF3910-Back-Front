@@ -34,6 +34,7 @@ class MqttClient {
 	}
 
 	error (e) {
+		console.log('errrororororo', e)
 		this.ctx.showSnackbar(`MQTT: ${e}`)
 	}
 

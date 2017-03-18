@@ -55,12 +55,13 @@ export default {
 				datasets: [{
 					label: this.label,
 					data: this.data,
-					fillColor: 'rgba(92,107,192,0.2)',
-					strokeColor: "rgba(92,107,192,1)",
-					pointColor: "rgba(92,107,192,1)",
-					pointStrokeColor: "#fff",
-					pointHighlightFill: "#fff",
-					pointHighlightStroke: "rgba(92,107,192,1)"
+					borderColor: 'rgba(92,107,192,.8)',
+					pointRadius: 0,
+					pointHoverRadius: 4,
+					pointHitRadius: 15,
+					pointBackgroundColor: 'rgba(92,107,192,.8)',
+					fill: true,
+					backgroundColor: 'rgba(92,107,192,.2)'
 				}]
 			}
 		}

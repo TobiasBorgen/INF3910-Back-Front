@@ -2,8 +2,8 @@
 md-layout.widget-map(
 	md-flex-xsmall="100"
 	md-flex-small="100"
-	md-flex-medium="50"
-	md-flex-large="100"
+	md-flex-medium="100"
+	md-flex-large="66"
 )
 	
 	card-loader(:loading="!thingsInited")

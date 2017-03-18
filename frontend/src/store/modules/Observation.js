@@ -19,7 +19,7 @@ const mutations = {
 		const buckets = data.aggregations.hist.buckets
 		buckets.forEach(bucket => {
 			let date = new Date(bucket.key)
-			let time = `${('0' + date.getDate()).slice(-2)}.${('0' + (date.getMonth() + 1)).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`
+			let time = `${('0' + date.getDate()).slice(-2)}/${('0' + (date.getMonth() + 1)).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`
 			state.time.push(time)
 
 			const s = bucket.s.value ? bucket.s.value.toString().slice(0, 5) : null
