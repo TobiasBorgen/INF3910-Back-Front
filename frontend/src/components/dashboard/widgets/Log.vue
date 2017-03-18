@@ -44,7 +44,7 @@ export default {
 		'$store.state.App.thingName' () {
 			this.logs = []	
 		},
-		currentThing (newThing) {
+		currentThing () {
 			const now = new Date()
 			const speed = this.reported('s')
 			if (!speed) return
@@ -60,6 +60,8 @@ export default {
 
 <style lang="scss" scoped>
 .widget-log {
-	max-height: 350px;
+	.md-table {
+		max-height: 350px;
+	}
 }
 </style>

@@ -1,4 +1,4 @@
-# ventus-frontend
+# vind-frontend
 
 > Front end client for the Ventus project.
 

@@ -40,7 +40,7 @@ export default {
 	components: { CardLoader, ThingChart },
 	data () {
 		return {
-			gte: (Date.now() - 2 * 60 * 60 * 1000),
+			gte: (Date.now() - 6 * 60 * 60 * 1000),
 			lte: Date.now()
 		}	
 	},
