@@ -2,58 +2,52 @@
 
 /* Input argv */
 var argv = require('optimist')
-	.demand('t').string('t')
-	.describe('t', 'Thing type ID')
-	.argv
+    .demand('u').string('u')
+    .demand('p').string('p')
+    .argv
 
 /* Libs */
-const mqtt = require('./lib/mqttClient')
-const logger = require('./logger')
-const path = require('path')
-const io = require('socket.io')()
+const AWSIot = require('aws-iot-device-sdk')
+const CloudConnect = require('./lib/CloudConnect')
+let CC = new CloudConnect
 
-/* Init last data to send new socket clients */
-LAST_DATA = null
 
-/* Init Socket.io */
-io.on('connection', (client) => {
-	client.emit('message', LAST_DATA)	
-})
-io.listen(3000)
+CC.init().then(() => {
+    CC.login(argv.u, argv.p).then(() => {
 
-/* Init MQTT client */
-const TOPIC = `$aws/things/${argv.t}/shadow/update`
-const options = {
-	hostname:	'a3k7odshaiipe8.iot.eu-west-1.amazonaws.com',
-	clientId:	argv.t,
-	key:		path.join(__dirname, '../certs', argv.t, 'privkey.pem'),
-	cert:		path.join(__dirname, '../certs', argv.t, 'cert.pem'),
-	ca:			path.join(__dirname, '../certs', 'root.crt')
-}
-const mqttClient = mqtt.init(options)
+        const mqtt = AWSIot.device({
+            region:             CC.AWS.config.region,
+            accessKeyId:        CC.AWS.config.credentials.accessKeyId,
+            secretKey:          CC.AWS.config.credentials.secretAccessKey,
+            sessionToken:       CC.AWS.config.credentials.sessionToken,
+            maximumReconnectTimeMs: 8000,
+            protocol: 'wss',
+        })
 
-/* Setup MQTT event listeners & connect */
-mqttClient.on('reconnect',	() => logger.warn('-- MQTT: reconnect'))
-mqttClient.on('close',		() => logger.warn('-- MQTT: connection closed'))
-mqttClient.on('error',		(e) => logger.error('-- MQTT: error, ', e))
-mqttClient.on('connect',	() => {
-	logger.info('-- MQTT: connected')
-	logger.info('-- MQTT: subscribing to ', TOPIC)
+        mqtt.on('reconnect', () => {
+            CC.refreshCredentials()
+						.then(() => {
+							mqtt.updateWebsocketCredentials(CC.AWS.config.credentials.accessKeyId, CC.AWS.config.credentials.secretAccessKey, CC.AWS.config.credentials.sessionToken)
+						})
+        })
 
-	/* Subscribe to thing updates */
-	mqttClient.subscribe(TOPIC, {qos: 1}, (err, granted) => {
-		if (err) {
-			logger.error('-- MQTT: subscribe error, ', err)
-			return
-		}
-
-		/* Relay incoming messages over socket */
-		mqttClient.on('message', (topic, message) => {
-			const data = JSON.parse(message)
-			LAST_DATA = {thing: argv.t, data}
-
-			logger.info('-- MQTT: got message, ', data)
-			io.emit('message', LAST_DATA)
+        mqtt.on('connect',   ()    => {
+					const topic = 'thing-update/UIT IFI course/vind/#'
+					mqtt.subscribe(topic, {qos: 1}, (err, granted) => {
+						if (err){
+							console.log(err)
+							return
+						}
+					})
+				})
+				mqtt.on('message', (topic, message) => {
+					console.log(topic)
+					console.log(JSON.parse(message.toString()))
+				})
+        mqtt.on('close',     ()    => console.info('MQTT Close'))
+        mqtt.on('error',     (err) => console.error('MQTT Error', err))
+    })
+		.catch(error => {
+			console.log('Server error: -- :', error)
 		})
-	})
 })
