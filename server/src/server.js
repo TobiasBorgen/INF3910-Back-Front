@@ -63,7 +63,7 @@ const onConnect = () => {
 
 const onMessage = (topic, message) => {
 	const data = JSON.parse(message)
-	logger.info(`-- MQTT: got message, [${topic}]\n\n`,)
+	logger.info(`-- MQTT: got message, [${topic}]\n\n`)
 	Buffer.onMessage(topic, JSON.parse(message))
 	console.log(Buffer)
 }
