@@ -12,6 +12,7 @@ const ora = require('ora')
 const logger = require('./logger')
 const CC = require('./lib/CloudConnect')
 const MQTT = require('./lib/MQTTClient')
+const Buffer = require('./lib/Buffer')
 
 /* Constants */
 const TOPIC = 'thing-update/UIT IFI course/vind/#'
@@ -62,5 +63,7 @@ const onConnect = () => {
 
 const onMessage = (topic, message) => {
 	const data = JSON.parse(message)
-	logger.info(`-- MQTT: got message, [${topic}]\n`, data)
+	logger.info(`-- MQTT: got message, [${topic}]\n\n`,)
+	Buffer.onMessage(topic, JSON.parse(message))
+	console.log(Buffer)
 }
