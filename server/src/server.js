@@ -64,7 +64,7 @@ const onConnect = () => {
 /*************************************************************
  *												DEBUG DATA 												 *
  *************************************************************/
-const rndrng = (min, max) => { return Math.random() * (max - min + 1) + min }
+const rndrng = (min, max) => { return (Math.random() * (max - min + 1) + min).toFixed(2) }
 const DEBUG_FREQ = 5000 // 5s interval
 const DEBUG_TOPIC = 'thing-update/UIT IFI course/vind/00000371'
 let timer = () => {
