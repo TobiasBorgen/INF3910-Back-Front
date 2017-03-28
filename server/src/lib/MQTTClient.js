@@ -7,12 +7,13 @@ class MQTTClient {
 	
 	init (config) {
 		this.client = AWSIot.device({
-			region:					config.region,
+
+			region:						config.region,
 			accessKeyId:			config.credentials.accessKeyId,
 			secretKey:				config.credentials.secretAccessKey,
 			sessionToken:			config.credentials.sessionToken,
 			maximumReconnectTimeMs:	8000,
-			protocol: 'wss',
+			protocol: 				'wss',
 		})
 	}
 	
