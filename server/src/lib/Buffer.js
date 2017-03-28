@@ -1,5 +1,5 @@
 const MAX_BUFFER = 5
-
+const fs = require('fs');
 class Buffer {
 	
 	constructor () {

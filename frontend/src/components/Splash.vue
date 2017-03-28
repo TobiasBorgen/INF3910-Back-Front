@@ -7,18 +7,32 @@
 		md-flex-medium="50"
 		md-flex-large="33"
 	)
-	//	card-loader
-			md-card-header
-				md-card-header-text
-					.md-title Measurements
-			md-card-content
-				.middle
-					.temp {{ stateReported('t') }}°C
-					.speed {{ stateReported('s') }} m/s
-					.direction {{ stateReported('d') }}°
-	//ul(id = "Splash" v-for="item in socketData")
-		li(v-for="subItem in item" value="subItem.state.reported.d") 
-		|{{ subItem.state.reported['t'] }}°C {{ subItem.state.reported['s'] }}m/s {{ subItem.state.reported['d'] }}°
+	br
+	md-card-header
+		md-card-header-text(class="headertext") Recent Measurements
+	br
+	br
+	br
+	md-card-content(
+		v-for="(thing, index) in socketData" 
+		v-bind:key="thing") 
+		.md-title Measurements for station {{index}}
+		md-table
+			md-table-header
+				md-table-row
+					md-table-head Time
+					md-table-head Speed
+					md-table-head Direction
+					md-table-head Temperature
+			md-table-body
+				md-table-row(
+					v-for="measurement in thing"
+					v-bind:key="measurement"
+				)
+					md-table-cell {{ measurement.time }}
+					md-table-cell {{ measurement.s }} m/s
+					md-table-cell {{ measurement.d }} °C
+					md-table-cell {{ measurement.t }} °
 
 </template>
 
@@ -54,7 +68,7 @@ export default {
 					console.log('Temp: ', data[thing][measurement].t)
 					console.log('Speed: ', data[thing][measurement].s)
 					console.log('Dir: ', data[thing][measurement].d)
-					
+
 				}
 			}
 		}
@@ -74,6 +88,13 @@ export default {
 
 <style lang="scss" scoped>
 .splash {
+	.thingname {
+		font-size: 1.5em;
+	}
+	.headertext{
+		font-size: 2em;
+	}
+
 	.widget-measurements {
 		.md-card-content {
 			height: 100%;

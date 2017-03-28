@@ -88,13 +88,13 @@ let timer = () => {
 		
 		let DEBUG_DATA = {
 			connection_status: 2,
-			rssi: rndrng(0.0, 100.0),
-			lsnr: rndrng(-8.0, 10.0),
+			rssi: rndrng(0.0, 100.0).toFixed(1),
+			lsnr: rndrng(-8.0, 10.0).toFixed(1),
 			latlng: '69.6363,18.9977',
 			f: 0,
-			t: rndrng(-30.0, 30.0),
-			s: rndrng(0.0, 25.0),
-			d: rndrng(0.0, 360.0),
+			t: rndrng(-30.0, 30.0).toFixed(1),
+			s: rndrng(0.0, 25.0).toFixed(1),
+			d: rndrng(0.0, 360.0).toFixed(1),
 			payload: '0022.6000.05240.45',
 			time: new Date(new Date().getTime()).toLocaleTimeString()
 		}
