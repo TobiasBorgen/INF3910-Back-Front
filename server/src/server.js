@@ -13,12 +13,26 @@ const logger = require('./logger')
 const CC = require('./lib/CloudConnect')
 const MQTT = require('./lib/MQTTClient')
 const Buffer = require('./lib/Buffer')
+const io = require('socket.io')()
+const fs = require('fs');
+
 
 /* Constants */
 const TOPIC = 'thing-update/UIT IFI course/vind/#'
 const spinner = ora('Pressing random buttons')
 spinner.color = 'green'
 CC.addSpinner(spinner.start())
+//const logfile = './data.json'
+
+//Buffer.fillBuffer(logfile)
+
+ /* Init Socket.io */
+ io.on('connection', (client) => {
+	 console.log('Connection recieved')
+	 data = Buffer.getData()
+ 	 client.emit('message', data)	
+ })
+  io.listen(3000)
 
 /* Init CC, fetch manifest */
 CC.init().then(() => {
@@ -61,9 +75,51 @@ const onConnect = () => {
 	})
 }
 
+
+/*************************************************************
+ *												DEBUG DATA 												 *
+ *************************************************************/
+const rndrng = (min, max) => { return Math.random() * (max - min + 1) + min }
+const DEBUG_FREQ = 5000 // 5s interval
+const DEBUG_TOPIC = 'thing-update/UIT IFI course/vind/00000371'
+const DEBUG_TOPIC_2 = 'thing-update/UIT IFI course/vind/00000376'
+let timer = () => {
+	setTimeout(() => {
+		
+		let DEBUG_DATA = {
+			connection_status: 2,
+			rssi: rndrng(0.0, 100.0),
+			lsnr: rndrng(-8.0, 10.0),
+			latlng: '69.6363,18.9977',
+			f: 0,
+			t: rndrng(-30.0, 30.0),
+			s: rndrng(0.0, 25.0),
+			d: rndrng(0.0, 360.0),
+			payload: '0022.6000.05240.45',
+			time: new Date(new Date().getTime()).toLocaleTimeString()
+		}
+		var randnum = rndrng(0, 2)
+		console.log('THIS IS THE NUMBER --------- ', randnum)
+		if( randnum > 1){
+			onMessage(DEBUG_TOPIC, JSON.stringify(DEBUG_DATA))
+		}
+		else{
+			onMessage(DEBUG_TOPIC_2, JSON.stringify(DEBUG_DATA))
+		}
+		
+		
+		timer()
+	}, DEBUG_FREQ)
+}
+timer()
+
 const onMessage = (topic, message) => {
 	const data = JSON.parse(message)
 	logger.info(`-- MQTT: got message, [${topic}]\n\n`)
+	logger.info(JSON.parse(message))
 	Buffer.onMessage(topic, JSON.parse(message))
 	console.log(Buffer)
+
+	//fs.writeFile(logfile, JSON.stringify(Buffer.getData(), null, 2) , 'utf-8');
+	io.emit('message', Buffer.getData())
 }

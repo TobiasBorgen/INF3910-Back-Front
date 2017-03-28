@@ -7,7 +7,7 @@
 		md-flex-medium="50"
 		md-flex-large="33"
 	)
-		card-loader
+	//	card-loader
 			md-card-header
 				md-card-header-text
 					.md-title Measurements
@@ -16,6 +16,10 @@
 					.temp {{ stateReported('t') }}°C
 					.speed {{ stateReported('s') }} m/s
 					.direction {{ stateReported('d') }}°
+	//ul(id = "Splash" v-for="item in socketData")
+		li(v-for="subItem in item" value="subItem.state.reported.d") 
+		|{{ subItem.state.reported['t'] }}°C {{ subItem.state.reported['s'] }}m/s {{ subItem.state.reported['d'] }}°
+
 </template>
 
 <script>
@@ -35,14 +39,24 @@ export default {
 	},
 	sockets: {
 		connect () {
+			console.log('Connected to socket')
 			this.socketStatus = 'Connected to socket'
 		},
 		connect_error (err) {
 			this.socketStatus = 'Unable to connect: ' + err
 		},
-		message ({thing, data}) {
+		message (data) {
 			this.socketData = data
-			console.log(this.socketData)
+			for(var thing in data){
+				console.log('\n\n\n --- Weather station: ', thing)
+				for(var measurement in data[thing]){
+					console.log('\n Measured at ', data[thing][measurement].time)
+					console.log('Temp: ', data[thing][measurement].t)
+					console.log('Speed: ', data[thing][measurement].s)
+					console.log('Dir: ', data[thing][measurement].d)
+					
+				}
+			}
 		}
 	},
 	methods: {

@@ -32,11 +32,16 @@ class Buffer {
 		if (thing.length > MAX_BUFFER)
 			thing.splice(-1, 1)
 	}
+
+	getData (){
+		return this.buffer
+	}
 	
 	onMessage (topic, data) {
 		const index = this.checkTopic(topic)
 		
 		this.pushData(index, data)
+
 	}
 }
 
