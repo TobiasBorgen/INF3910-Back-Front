@@ -16,7 +16,7 @@
 	md-card-content(
 		v-for="(thing, index) in socketData" 
 		v-bind:key="thing") 
-		.md-title Measurements for station {{index}}
+		.md-title {{index}}
 		md-table
 			md-table-header
 				md-table-row
@@ -30,10 +30,9 @@
 					v-bind:key="measurement"
 				)
 					md-table-cell {{ measurement.time }}
-					md-table-cell {{ measurement.s }} m/s
-					md-table-cell {{ measurement.d }} °C
-					md-table-cell {{ measurement.t }} °
-
+					md-table-cell {{ measurement.state.reported['s']}} m/s
+					md-table-cell {{ measurement.state.reported['d'] }} °
+					md-table-cell {{ measurement.state.reported['t'] }} °C
 </template>
 
 <script>
@@ -68,6 +67,7 @@ export default {
 					console.log('Temp: ', data[thing][measurement].t)
 					console.log('Speed: ', data[thing][measurement].s)
 					console.log('Dir: ', data[thing][measurement].d)
+					console.log('NewData ', data[thing][measurement].state.reported['d'])
 
 				}
 			}

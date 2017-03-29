@@ -22,9 +22,6 @@ const TOPIC = 'thing-update/UIT IFI course/vind/#'
 const spinner = ora('Pressing random buttons')
 spinner.color = 'green'
 CC.addSpinner(spinner.start())
-//const logfile = './data.json'
-
-//Buffer.fillBuffer(logfile)
 
  /* Init Socket.io */
  io.on('connection', (client) => {
@@ -75,10 +72,10 @@ const onConnect = () => {
 	})
 }
 
-
 /*************************************************************
  *												DEBUG DATA 												 *
  *************************************************************/
+/*
 const rndrng = (min, max) => { return Math.random() * (max - min + 1) + min }
 const DEBUG_FREQ = 5000 // 5s interval
 const DEBUG_TOPIC = 'thing-update/UIT IFI course/vind/00000371'
@@ -112,14 +109,16 @@ let timer = () => {
 	}, DEBUG_FREQ)
 }
 timer()
-
+*/
 const onMessage = (topic, message) => {
 	const data = JSON.parse(message)
+	d = new Date()
+	data['time'] = d.getHours() + ':' + d.getMinutes()
 	logger.info(`-- MQTT: got message, [${topic}]\n\n`)
 	logger.info(JSON.parse(message))
-	Buffer.onMessage(topic, JSON.parse(message))
-	console.log(Buffer)
 
-	//fs.writeFile(logfile, JSON.stringify(Buffer.getData(), null, 2) , 'utf-8');
+	Buffer.onMessage(topic, data)
+	//console.log(Buffer.getData())
+
 	io.emit('message', Buffer.getData())
 }

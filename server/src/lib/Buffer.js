@@ -1,5 +1,10 @@
 const MAX_BUFFER = 5
 const fs = require('fs');
+var stationname;
+fs.readFile('stations.json', 'utf8', function (err, data) {
+  if (err) throw err;
+  stationname = JSON.parse(data);
+})
 class Buffer {
 	
 	constructor () {
@@ -7,7 +12,14 @@ class Buffer {
 	}
 	
 	checkTopic (topic) {
-		const thingName = topic.split('/')[3]
+		var thingName = topic.split('/')[3]
+		
+		/* Rename variable by using stations.json */
+		for(var key in stationname){
+			if (key == thingName){
+				thingName = stationname[key]
+			}
+		}
 		
 		/* Search for thing in buffer */
 		let i = 0
