@@ -1,4 +1,10 @@
 const MAX_BUFFER = 5
+const fs = require('fs');
+var stationname;
+fs.readFile('stations.json', 'utf8', function (err, data) {
+  if (err) throw err;
+  stationname = JSON.parse(data);
+})
 
 class Buffer {
 	
@@ -7,7 +13,14 @@ class Buffer {
 	}
 	
 	checkTopic (topic) {
-		const thingName = topic.split('/')[3]
+		let thingName = topic.split('/')[3]
+		
+		/* Rename variable by using stations.json */
+		for(var key in stationname){
+			if (key == thingName){
+				thingName = stationname[key]
+			}
+		}
 		
 		/* Search for thing in buffer */
 		let i = 0
@@ -31,6 +44,10 @@ class Buffer {
 		/* Remove last data if buffer overflow */
 		if (thing.length > MAX_BUFFER)
 			thing.splice(-1, 1)
+	}
+
+	getData (){
+		return this.buffer
 	}
 	
 	onMessage (topic, data) {
