@@ -5,6 +5,7 @@ fs.readFile('stations.json', 'utf8', function (err, data) {
   if (err) throw err;
   stationname = JSON.parse(data);
 })
+
 class Buffer {
 	
 	constructor () {
@@ -20,6 +21,7 @@ class Buffer {
 				thingName = stationname[key]
 			}
 		}
+
 		
 		/* Search for thing in buffer */
 		let i = 0
@@ -37,7 +39,8 @@ class Buffer {
 	pushData (index, data) {
 		let thing = this.buffer[index]
 		
-		/* Append new data to buffer */
+
+		/* Prepend new data to buffer */
 		thing.unshift(data)
 		
 		/* Remove last data if buffer overflow */
