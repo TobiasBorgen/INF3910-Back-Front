@@ -63,7 +63,7 @@ export default {
 		init (data) {
 			this.buffer = {}
 			
-			console.log('init')
+			console.log('init', data)
 			
 			for (let thingName in data) {
 				this.buffer[thingName] = data[thingName]
@@ -76,7 +76,7 @@ export default {
 	methods: {
 		initSocket () {
 			console.log('sent init')
-			this.$socket.emit('front_init', null)
+			this.$socket.emit('init', {foo:'bar'})
 		}
 	}
 }

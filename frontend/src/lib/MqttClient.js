@@ -41,6 +41,10 @@ class MqttClient {
 		const msg = JSON.parse(message.toString())
 		this.ctx.$store.commit(`Thing/${this.ctx.t.THING_GET_MQTT}`, {topic, message: msg})
 	}
+
+	kill () {
+		this.mqtt.end(true)
+	}
 }
 
 export let MQTT = new MqttClient

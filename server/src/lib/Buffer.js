@@ -1,25 +1,26 @@
-const MAX_BUFFER = 5
-const fs = require('fs');
-var stationname;
-fs.readFile('stations.json', 'utf8', function (err, data) {
-  if (err) throw err;
-  stationname = JSON.parse(data);
-})
+const fs = require('fs')
 
 class Buffer {
 	
-	constructor () {
+	constructor (MAX_BUFFER = 5) {
+		this.MAX_BUFFER = MAX_BUFFER
 		this.buffer = {}
+		this.stations = {}
+
+		/* Read stored station mappings */
+		fs.readFile('stations.json', 'utf8', (err, data) => {
+			if (err) throw err
+			this.stations = JSON.parse(data)
+		})
 	}
 	
 	checkTopic (topic) {
 		let thingName = topic.split('/')[3]
 		
 		/* Rename variable by using stations.json */
-		for(var key in stationname){
-			if (key == thingName){
-				thingName = stationname[key]
-			}
+		for (let key in this.stations) {
+			if (key == thingName)
+				thingName = this.stations[key]
 		}
 		
 		/* Search for thing in buffer */
@@ -42,17 +43,16 @@ class Buffer {
 		thing.unshift(data)
 		
 		/* Remove last data if buffer overflow */
-		if (thing.length > MAX_BUFFER)
+		if (thing.length > this.MAX_BUFFER)
 			thing.splice(-1, 1)
 	}
 
-	getData (){
+	getData () {
 		return this.buffer
 	}
 	
 	onMessage (topic, data) {
 		const index = this.checkTopic(topic)
-		
 		this.pushData(index, data)
 	}
 }

@@ -4,23 +4,24 @@ const Buffer = require('./Buffer')
 class Socket {
 	
 	constructor () {
-		this.client = null
 		this.io = require('socket.io')()
+		this.io.listen(3000)
+
 		this.io.on('connection', (client) => {
-			this.client = client
-			console.log('Connection recieved')
-			var data = Buffer.getData()
-			client.emit('message', {topic:null, data})	
+			client.on('init', () => this.onInit(client))
 		})
-  	this.io.listen(3000)
 	}
 	
 	onMessage (topic, data) {
+		const now = new Date()
+		data['time'] = `${('0' + now.getHours()).slice(-2)}:${('0' + now.getMinutes()).slice(-2)}`
+
+		Buffer.onMessage(topic, data)
 		this.io.emit('message', {topic, data})
 	}
 	
-	init (data) {
-		this.client.emit('init', data)
+	onInit (client, data) {
+		client.emit('init', Buffer.getData())
 	}
 }
 

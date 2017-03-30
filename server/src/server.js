@@ -5,6 +5,7 @@ console.log('\033[2J')
 var argv = require('optimist')
 	.demand('u').string('u')
 	.demand('p').string('p')
+	.demand('t').string('t')
 	.argv
 
 /* Libs */
@@ -12,11 +13,9 @@ const ora = require('ora')
 const logger = require('./logger')
 const CC = require('./lib/CloudConnect')
 const MQTT = require('./lib/MQTTClient')
-const Buffer = require('./lib/Buffer')
 const IO = require('./lib/Socket')
 
-/* Constants */
-const TOPIC = 'thing-update/UIT IFI course/vind/#'
+/* Init CLI */
 const spinner = ora('Pressing random buttons')
 spinner.color = 'green'
 CC.addSpinner(spinner.start())
@@ -25,19 +24,17 @@ CC.addSpinner(spinner.start())
 CC.init().then(() => {
 	/* Login using cmd parameters */
 	CC.login(argv.u, argv.p).then(() => {
-		
 		spinner.text = 'Docking spaceship'
 		
 		/* Init MQTT client with AWS config */
 		MQTT.init(CC.AWS.config)
 		
 		/* Setup event handlers */
-		MQTT.client.on('reconnect',	()							=> onReconnect())
-		MQTT.client.on('connect',	()								=> onConnect())
-		MQTT.client.on('message',	(topic, message)	=> onMessage(topic, message))
-		MQTT.client.on('front_init', ()							=> onFrontInit())
-		MQTT.client.on('close',		()								=> logger.warn('-- MQTT: connection closed'))
-		MQTT.client.on('error',		(e)								=> logger.error('-- MQTT: error,', e))
+		MQTT.client.on('reconnect',  ()               => onReconnect())
+		MQTT.client.on('connect',    ()               => onConnect())
+		MQTT.client.on('message',    (topic, message) => onMessage(topic, message))
+		MQTT.client.on('close',      ()               => logger.warn('-- MQTT: connection closed'))
+		MQTT.client.on('error',      (e)              => logger.error('-- MQTT: error,', e))
 	})
 	.catch(error => {
 		spinner.stop()
@@ -46,26 +43,42 @@ CC.init().then(() => {
 })
 .catch(() => spinner.stop())
 
-/* Event handlers */
+/* On MQTT reconnect try to refresh AWS Cognito
+ * credentials, update websocket credentials
+ * and reconnect.
+ */
 const onReconnect = () => {
 	logger.warn('-- MQTT: reconnect')
+
 	CC.refreshCredentials().then(() => {
 		MQTT.updateWebsocketCredentials(CC.AWS.config)
 	})
 }
 
+/* On MQTT connection subscribe to configured topic.
+ */
 const onConnect = () => {
 	spinner.stop()
 	logger.info('-- MQTT: connected')
-	logger.info('-- MQTT: subscribing to', TOPIC)
-	MQTT.client.subscribe(TOPIC, {qos: 1}, (err, granted) => {
+	logger.info('-- MQTT: subscribing to', argv.t)
+
+	MQTT.client.subscribe(argv.t, {qos: 1}, (err, granted) => {
 		if (err) logger.error('-- MQTT: error in message,', err)
 	})
+
+}
+/* On MQTT message, parse the data and pass it to
+ * the socket handler. The socket handler will take
+ * care of adding to the bounded buffer.
+ */
+const onMessage = (topic, message) => {
+	const data = JSON.parse(message)
+	logger.info(`-- MQTT: got message, [${topic}]\n\n`)
+
+	IO.onMessage(topic, data)
 }
 
-/*************************************************************
- *												DEBUG DATA 												 *
- *************************************************************/
+/* DEBUG DATA */
 /*
 const rndrng = (min, max) => { return (Math.random() * (max - min + 1) + min).toFixed(1) }
 const DEBUG_FREQ = 5000 // 5s interval
@@ -102,21 +115,3 @@ let timer = () => {
 }
 timer()
 */
-
-const onMessage = (topic, message) => {
-	const data = JSON.parse(message)
-	d = new Date()
-	data['time'] = d.getHours() + ':' + d.getMinutes()
-	logger.info(`-- MQTT: got message, [${topic}]\n\n`)
-	//logger.info(JSON.parse(message))
-
-	Buffer.onMessage(topic, data)
-	//console.log(Buffer.getData())
-
-	IO.onMessage(topic, data)
-}
-
-const onFrontInit = () => {
-	logger.info('__________________________________got init')
-	IO.init(Buffer.getData())
-}

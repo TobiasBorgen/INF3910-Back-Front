@@ -51,12 +51,25 @@ const mutations = {
 		copy[i].shadow.state = merged
 
 		state.things = copy
+	},
+	[t.THING_REMOVE] (state, thingName) {
+		let copy = Object.assign({}, state.things)
+
+		/* Find thing in store and delete it */
+		let i = 0
+		for (i in copy) {
+			if (copy[i].thingName == thingName) {
+				delete copy[i]
+				break
+			}
+		}
+
+		state.things = copy
 	}
 }
 
 const actions = {
 	get ({commit}, thingName) {
-
 		const payload = {
 			action: 'GET',
 			attributes: {
@@ -101,6 +114,25 @@ const actions = {
 		return CC.invoke('ThingLambda', payload)
 			.then(data => {
 				commit(t.THING_FIND_RESPONSE, data)
+			})
+	},
+
+	remove ({commit, rootGetters}, thingName) {
+		const payload = {
+			action: 'REMOVE',
+			attributes: {
+				thingName
+			}
+		}
+		return CC.invoke('ThingLambda', payload)
+			.then(() => {
+				commit(t.THING_REMOVE, thingName)
+
+				/* Deleted was selected */
+				if (rootGetters['App'].thingName == thingName)
+					commit(`App/${t.APP_SET_THING_NAME}`, null, { root: true })
+
+				return Promise.resolve()
 			})
 	}
 }

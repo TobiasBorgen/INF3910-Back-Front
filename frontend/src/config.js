@@ -8,5 +8,6 @@ export const CONFIG = {
 
 	/* Cloud Connect configuration.
 	 */
-	THING_TYPE: '121'
+	THING_TYPE: '121',
+	THING_DOMAIN: 'vind'
 }
