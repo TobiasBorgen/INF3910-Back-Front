@@ -21,7 +21,9 @@
 			md-table-header
 				md-table-row
 					md-table-head Time
-					md-table-head Speed
+					md-table-head Average Speed
+					//md-table-head Speedmin
+					//md-table-head Speedmax
 					md-table-head Direction
 					md-table-head Temperature
 			md-table-body
@@ -31,8 +33,12 @@
 				)
 					md-table-cell {{ measurement.time }}
 					md-table-cell {{ measurement.state.reported['s']}} m/s
+					//md-table-cell 0
+					//md-table-cell 0
 					md-table-cell {{ measurement.state.reported['d'] }} °
 					md-table-cell {{ measurement.state.reported['t'] }} °C
+		br
+		br
 </template>
 
 <script>

@@ -84,16 +84,19 @@ let timer = () => {
 	setTimeout(() => {
 		
 		let DEBUG_DATA = {
-			connection_status: 2,
-			rssi: rndrng(0.0, 100.0).toFixed(1),
-			lsnr: rndrng(-8.0, 10.0).toFixed(1),
-			latlng: '69.6363,18.9977',
-			f: 0,
-			t: rndrng(-30.0, 30.0).toFixed(1),
-			s: rndrng(0.0, 25.0).toFixed(1),
-			d: rndrng(0.0, 360.0).toFixed(1),
-			payload: '0022.6000.05240.45',
-			time: new Date(new Date().getTime()).toLocaleTimeString()
+			state:{
+				reported:{
+					connection_status: 2,
+					rssi: rndrng(0.0, 100.0).toFixed(1),
+					lsnr: rndrng(-8.0, 10.0).toFixed(1),
+					latlng: '69.6363,18.9977',
+					f: 0,
+					t: rndrng(-30.0, 30.0).toFixed(1),
+					s: rndrng(0.0, 25.0).toFixed(1),
+					d: rndrng(0.0, 360.0).toFixed(1),
+					payload: '0022.6000.05240.45',
+				}
+			}
 		}
 		var randnum = rndrng(0, 2)
 		console.log('THIS IS THE NUMBER --------- ', randnum)
@@ -118,7 +121,7 @@ const onMessage = (topic, message) => {
 	logger.info(JSON.parse(message))
 
 	Buffer.onMessage(topic, data)
-	//console.log(Buffer.getData())
+	console.log(Buffer.getData())
 
 	io.emit('message', Buffer.getData())
 }
