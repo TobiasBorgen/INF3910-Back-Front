@@ -13,8 +13,7 @@ const logger = require('./logger')
 const CC = require('./lib/CloudConnect')
 const MQTT = require('./lib/MQTTClient')
 const Buffer = require('./lib/Buffer')
-const io = require('socket.io')()
-const fs = require('fs');
+const IO = require('./lib/Socket')
 
 
 /* Constants */
@@ -23,13 +22,7 @@ const spinner = ora('Pressing random buttons')
 spinner.color = 'green'
 CC.addSpinner(spinner.start())
 
- /* Init Socket.io */
- io.on('connection', (client) => {
-	 console.log('Connection recieved')
-	 data = Buffer.getData()
- 	 client.emit('message', data)	
- })
-  io.listen(3000)
+
 
 /* Init CC, fetch manifest */
 CC.init().then(() => {
@@ -47,6 +40,7 @@ CC.init().then(() => {
 		MQTT.client.on('message',	(topic, message)	=> onMessage(topic, message))
 		MQTT.client.on('close',		()					=> logger.warn('-- MQTT: connection closed'))
 		MQTT.client.on('error',		(e)					=> logger.error('-- MQTT: error,', e))
+
 	})
 	.catch(error => {
 		spinner.stop()
@@ -76,7 +70,7 @@ const onConnect = () => {
  *												DEBUG DATA 												 *
  *************************************************************/
 /*
-const rndrng = (min, max) => { return Math.random() * (max - min + 1) + min }
+const rndrng = (min, max) => { return (Math.random() * (max - min + 1) + min).toFixed(1) }
 const DEBUG_FREQ = 5000 // 5s interval
 const DEBUG_TOPIC = 'thing-update/UIT IFI course/vind/00000371'
 const DEBUG_TOPIC_2 = 'thing-update/UIT IFI course/vind/00000376'
@@ -87,13 +81,13 @@ let timer = () => {
 			state:{
 				reported:{
 					connection_status: 2,
-					rssi: rndrng(0.0, 100.0).toFixed(1),
-					lsnr: rndrng(-8.0, 10.0).toFixed(1),
+					rssi: rndrng(0.0, 100.0),
+					lsnr: rndrng(-8.0, 10.0),
 					latlng: '69.6363,18.9977',
 					f: 0,
-					t: rndrng(-30.0, 30.0).toFixed(1),
-					s: rndrng(0.0, 25.0).toFixed(1),
-					d: rndrng(0.0, 360.0).toFixed(1),
+					t: rndrng(-30.0, 30.0),
+					s: rndrng(0.0, 25.0),
+					d: rndrng(0.0, 360.0),
 					payload: '0022.6000.05240.45',
 				}
 			}
@@ -106,8 +100,6 @@ let timer = () => {
 		else{
 			onMessage(DEBUG_TOPIC_2, JSON.stringify(DEBUG_DATA))
 		}
-		
-		
 		timer()
 	}, DEBUG_FREQ)
 }
@@ -123,5 +115,6 @@ const onMessage = (topic, message) => {
 	Buffer.onMessage(topic, data)
 	console.log(Buffer.getData())
 
-	io.emit('message', Buffer.getData())
+	IO.onMessage(topic, data)
+
 }

@@ -7,7 +7,6 @@ class MQTTClient {
 	
 	init (config) {
 		this.client = AWSIot.device({
-
 			region:						config.region,
 			accessKeyId:			config.credentials.accessKeyId,
 			secretKey:				config.credentials.secretAccessKey,

@@ -39,6 +39,7 @@
 					md-table-cell {{ measurement.state.reported['t'] }} °C
 		br
 		br
+
 </template>
 
 <script>
@@ -59,22 +60,22 @@ export default {
 	sockets: {
 		connect () {
 			console.log('Connected to socket')
+
 			this.socketStatus = 'Connected to socket'
 		},
 		connect_error (err) {
 			this.socketStatus = 'Unable to connect: ' + err
 		},
-		message (data) {
+		message ({thing, data}) {
 			this.socketData = data
-			for(var thing in data){
-				console.log('\n\n\n --- Weather station: ', thing)
-				for(var measurement in data[thing]){
-					console.log('\n Measured at ', data[thing][measurement].time)
-					console.log('Temp: ', data[thing][measurement].t)
-					console.log('Speed: ', data[thing][measurement].s)
-					console.log('Dir: ', data[thing][measurement].d)
-					console.log('NewData ', data[thing][measurement].state.reported['d'])
-
+			for(var i in data){
+				console.log('\n\n\n --- Weather station: ', i)
+				for(var j in data[i]){
+					var tmp = data[i][j]
+					console.log('\n Measured at ', tmp.time)
+					console.log('Temp: ', tmp.state.reported['t'])
+					console.log('Speed: ', tmp.state.reported['s'])
+					console.log('Dir: ', tmp.state.reported['d'])
 				}
 			}
 		}
@@ -94,13 +95,6 @@ export default {
 
 <style lang="scss" scoped>
 .splash {
-	.thingname {
-		font-size: 1.5em;
-	}
-	.headertext{
-		font-size: 2em;
-	}
-
 	.widget-measurements {
 		.md-card-content {
 			height: 100%;
