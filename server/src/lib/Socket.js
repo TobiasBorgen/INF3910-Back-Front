@@ -6,8 +6,8 @@ class Socket {
 		this.io = require('socket.io')()
 		 this.io.on('connection', (client) => {
 			console.log('Connection recieved')
-			data = Buffer.getData()
-			client.emit('message', data)	
+			var data = Buffer.getData()
+			client.emit('message', {topic:null, data})	
 		})
   		this.io.listen(3000)
 	}
