@@ -4,8 +4,10 @@ const Buffer = require('./Buffer')
 class Socket {
 	
 	constructor () {
+		this.client = null
 		this.io = require('socket.io')()
 		this.io.on('connection', (client) => {
+			this.client = client
 			console.log('Connection recieved')
 			var data = Buffer.getData()
 			client.emit('message', {topic:null, data})	
@@ -14,7 +16,11 @@ class Socket {
 	}
 	
 	onMessage (topic, data) {
-		io.emit('message', {topic, data})
+		this.io.emit('message', {topic, data})
+	}
+	
+	init (data) {
+		this.client.emit('init', data)
 	}
 }
 

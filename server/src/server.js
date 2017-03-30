@@ -35,6 +35,7 @@ CC.init().then(() => {
 		MQTT.client.on('reconnect',	()							=> onReconnect())
 		MQTT.client.on('connect',	()								=> onConnect())
 		MQTT.client.on('message',	(topic, message)	=> onMessage(topic, message))
+		MQTT.client.on('front_init', ()							=> onFrontInit())
 		MQTT.client.on('close',		()								=> logger.warn('-- MQTT: connection closed'))
 		MQTT.client.on('error',		(e)								=> logger.error('-- MQTT: error,', e))
 	})
@@ -107,11 +108,15 @@ const onMessage = (topic, message) => {
 	d = new Date()
 	data['time'] = d.getHours() + ':' + d.getMinutes()
 	logger.info(`-- MQTT: got message, [${topic}]\n\n`)
-	logger.info(JSON.parse(message))
+	//logger.info(JSON.parse(message))
 
 	Buffer.onMessage(topic, data)
-	console.log(Buffer.getData())
+	//console.log(Buffer.getData())
 
 	IO.onMessage(topic, data)
+}
 
+const onFrontInit = () => {
+	logger.info('__________________________________got init')
+	IO.init(Buffer.getData())
 }

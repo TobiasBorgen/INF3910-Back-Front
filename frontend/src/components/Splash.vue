@@ -14,7 +14,7 @@
 	br
 	br
 	md-card-content(
-		v-for="(thing, index) in socketData" 
+		v-for="(thing, index) in buffer" 
 		v-bind:key="thing") 
 		.md-title {{index}}
 		md-table
@@ -50,8 +50,7 @@ export default {
 	name: 'Splash',
 	data () {
 		return {
-			socketStatus: null,
-			socketData: null
+			buffer: {}
 		}
 	},
 	components: {
@@ -59,37 +58,26 @@ export default {
 	},
 	sockets: {
 		connect () {
-			console.log('Connected to socket')
-
-			this.socketStatus = 'Connected to socket'
+			this.initSocket()
 		},
-		connect_error (err) {
-			this.socketStatus = 'Unable to connect: ' + err
-		},
-		message ({thing, data}) {
-			this.socketData = data
-
-			for(var i in data){
-				console.log('\n\n\n --- Weather station: ', i)
-				for(var j in data[i]){
-					var tmp = data[i][j]
-					console.log('\n Measured at ', tmp.time)
-					console.log('Temp: ', tmp.state.reported['t'])
-					console.log('Speed: ', tmp.state.reported['s'])
-					console.log('Dir: ', tmp.state.reported['d'])
-				}
+		init (data) {
+			this.buffer = {}
+			
+			console.log('init')
+			
+			for (let thingName in data) {
+				this.buffer[thingName] = data[thingName]
 			}
+		},
+		message ({topic, data}) {
+			this.buffer[topic] = data
 		}
 	},
 	methods: {
-		stateReported (property) {
-			if (this.socketData !== null && this.socketData.state !== null && this.socketData.hasOwnProperty('state') && typeof this.socketData.state !== 'undefined')
-				return this.socketData.state.reported[property]
-			return null
+		initSocket () {
+			console.log('sent init')
+			this.$socket.emit('front_init', null)
 		}
-	},
-	mounted () {
-
 	}
 }
 </script>
