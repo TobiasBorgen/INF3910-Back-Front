@@ -25,7 +25,7 @@ class Buffer {
 	pushData (index, data) {
 		let thing = this.buffer[index]
 		
-		/* Append new data to buffer */
+		/* Prepend new data to buffer */
 		thing.unshift(data)
 		
 		/* Remove last data if buffer overflow */

@@ -13,6 +13,7 @@ const logger = require('./logger')
 const CC = require('./lib/CloudConnect')
 const MQTT = require('./lib/MQTTClient')
 const Buffer = require('./lib/Buffer')
+const IO = require('./lib/Socket')
 
 /* Constants */
 const TOPIC = 'thing-update/UIT IFI course/vind/#'
@@ -31,11 +32,11 @@ CC.init().then(() => {
 		MQTT.init(CC.AWS.config)
 		
 		/* Setup event handlers */
-		MQTT.client.on('reconnect',	()					=> onReconnect())
-		MQTT.client.on('connect',	()					=> onConnect())
+		MQTT.client.on('reconnect',	()							=> onReconnect())
+		MQTT.client.on('connect',	()								=> onConnect())
 		MQTT.client.on('message',	(topic, message)	=> onMessage(topic, message))
-		MQTT.client.on('close',		()					=> logger.warn('-- MQTT: connection closed'))
-		MQTT.client.on('error',		(e)					=> logger.error('-- MQTT: error,', e))
+		MQTT.client.on('close',		()								=> logger.warn('-- MQTT: connection closed'))
+		MQTT.client.on('error',		(e)								=> logger.error('-- MQTT: error,', e))
 	})
 	.catch(error => {
 		spinner.stop()
@@ -91,7 +92,7 @@ timer()
 const onMessage = (topic, message) => {
 	const data = JSON.parse(message)
 	logger.info(`-- MQTT: got message, [${topic}]\n\n`)
-	logger.info(JSON.parse(message))
-	Buffer.onMessage(topic, JSON.parse(message))
+	Buffer.onMessage(topic, data)
+	IO.onMessage(topic, data)
 	console.log(Buffer)
 }
