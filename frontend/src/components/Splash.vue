@@ -1,82 +1,92 @@
 <template lang="pug">
 .splash
 	md-button.md-primary(@click.native="$router.push('/login')") Login
-	md-layout.widget-measurements(
-		md-flex-xsmall="100"
-		md-flex-small="100"
-		md-flex-medium="50"
-		md-flex-large="33"
-	)
-	br
-	md-card-header
-		md-card-header-text(class="headertext") Recent Measurements
-	br
-	br
-	br
-	md-card-content(
-		v-for="(thing, index) in buffer" 
-		v-bind:key="thing") 
-		.md-title {{index}}
-		md-table
-			md-table-header
-				md-table-row
-					md-table-head Time
-					md-table-head Average Speed
-					//md-table-head Speedmin
-					//md-table-head Speedmax
-					md-table-head Direction
-					md-table-head Temperature
-			md-table-body
-				md-table-row(
-					v-for="measurement in thing"
-					v-bind:key="measurement"
-				)
-					md-table-cell {{ measurement.time }}
-					md-table-cell {{ measurement.state.reported['s']}} m/s
-					//md-table-cell 0
-					//md-table-cell 0
-					md-table-cell {{ measurement.state.reported['d'] }} °
-					md-table-cell {{ measurement.state.reported['t'] }} °C
-		br
-		br
 
+	md-layout.recent
+		md-layout(
+			v-for="(thing, index) in buffer" 
+			v-bind:key="thing"
+			md-flex-xsmall="100"
+			md-flex-small="100"
+			md-flex-medium="50"
+			md-flex-large="33"
+		)
+			card-loader
+				md-card-content
+					.md-title {{index}}
+					md-table
+						md-table-header
+							md-table-row
+								md-table-head Time
+								md-table-head Average Speed
+								//md-table-head Speedmin
+								//md-table-head Speedmax
+								md-table-head Direction
+								md-table-head Temperature
+						md-table-body
+							md-table-row(
+								v-for="measurement in thing"
+								v-bind:key="measurement"
+							)
+								md-table-cell {{ measurement.time }}
+								md-table-cell {{ measurement.state.reported['s']}} m/s
+								//md-table-cell 0
+								//md-table-cell 0
+								md-table-cell {{ measurement.state.reported['d'] }} °
+								md-table-cell {{ measurement.state.reported['t'] }} °C
 </template>
 
 <script>
-//import '@/init/socket'
 import CardLoader from '@/components/custom/CardLoader'
+const MAX_BUFFER = 10
 
 export default {
 	name: 'Splash',
+	components: { CardLoader },
 	data () {
 		return {
 			buffer: {}
 		}
 	},
-	components: {
-		CardLoader
-	},
-	sockets: {
-		connect () {
-			this.initSocket()
-		},
-		init (data) {
+	methods: {
+		bufferNew (data) {
 			this.buffer = {}
 			
-			console.log('init', data)
-			
+			/* Create a new buffer and fill it */
 			for (let thingName in data) {
 				this.buffer[thingName] = data[thingName]
 			}
 		},
-		message ({topic, data}) {
-			this.buffer[topic] = data
+		bufferAdd (topic, data) {
+			console.log(this.buffer)
+			/* New thing, add it to the buffer and return */
+			if (!this.buffer.hasOwnProperty(topic)) {
+				this.buffer[topic] = data
+				return
+			}
+
+			/* Prepend new data to buffer */
+			this.buffer[topic].unshift(data)
+
+			/* Remove last data if buffer overflow */
+			if (this.buffer[topic].length > MAX_BUFFER)
+				this.buffer[topic].splice(-1, 1)
+
+			/* Make copy for ractivity (Vue doesn't see the changes) */
+			const copy = Object.assign({}, this.buffer)
+			this.buffer = copy
 		}
 	},
-	methods: {
-		initSocket () {
-			console.log('sent init')
-			this.$socket.emit('init', {foo:'bar'})
+	sockets: {
+		connect () {
+			this.$socket.emit('init')
+		},
+		init (data) {
+			this.bufferNew(data)
+		},
+		message ({topicName, data}) {
+			console.log(topicName, data)
+			this.bufferAdd(topicName, data)
 		}
 	}
 }
@@ -84,35 +94,16 @@ export default {
 
 <style lang="scss" scoped>
 .splash {
-	.widget-measurements {
-		.md-card-content {
-			height: 100%;
-			text-align: center;
-			font-weight: 300;
+	.recent {
+		padding-left: 10px;
+	}
 
-			&:before {
-				content: '';
-				display: inline-block;
-				height: 100%;
-				vertical-align: middle;
-			}
+	.md-card {
+		margin-right: 10px;
+		margin-bottom: 10px;
 
-			.middle {
-				display: inline-block;
-				vertical-align: middle;
-
-				.temp {
-					font-size: 2em;
-				}
-
-				.speed {
-					font-size: 4em;
-					line-height: 100px;
-				}
-				.direction {
-					font-size: 2em;
-				}
-			}
+		.md-table {
+			margin: 0 -16px -16px;
 		}
 	}
 }

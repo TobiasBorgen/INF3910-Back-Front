@@ -16,8 +16,8 @@ class Socket {
 		const now = new Date()
 		data['time'] = `${('0' + now.getHours()).slice(-2)}:${('0' + now.getMinutes()).slice(-2)}`
 
-		Buffer.onMessage(topic, data)
-		this.io.emit('message', {topic, data})
+		const topicName = Buffer.onMessage(topic, data)
+		this.io.emit('message', {topicName, data})
 	}
 	
 	onInit (client, data) {

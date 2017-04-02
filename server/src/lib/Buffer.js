@@ -2,7 +2,7 @@ const fs = require('fs')
 
 class Buffer {
 	
-	constructor (MAX_BUFFER = 5) {
+	constructor (MAX_BUFFER = 10) {
 		this.MAX_BUFFER = MAX_BUFFER
 		this.buffer = {}
 		this.stations = {}
@@ -54,6 +54,7 @@ class Buffer {
 	onMessage (topic, data) {
 		const index = this.checkTopic(topic)
 		this.pushData(index, data)
+		return index
 	}
 }
 
