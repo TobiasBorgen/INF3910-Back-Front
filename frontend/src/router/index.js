@@ -5,6 +5,7 @@ import Splash from '@/components/Splash'
 import Login from '@/components/Login'
 import Dashboard from '@/components/dashboard/Dashboard'
 import Panel from '@/components/dashboard/Panel'
+import Update from '@/components/dashboard/Update'
 import Stations from '@/components/dashboard/Stations'
 import Settings from '@/components/dashboard/Settings'
 
@@ -18,7 +19,7 @@ export default new Router({
 		{ path: '/dashboard', component: Dashboard,
 			children: [
 				{ path: '', component: Panel },
-				{ path: 'update', component: Settings },
+				{ path: 'update', component: Update },
 				{ path: 'stations', component: Stations },
 				{ path: 'settings', component: Settings }
 			] }
