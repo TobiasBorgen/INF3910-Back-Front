@@ -9,11 +9,16 @@
         md-card-content
           md-input-container
             label(for="things") Select Station
-              md-select(
-              	name="things"
-              	v-model="selected"
-              	@change="changeSelected"
-              )
+            md-select(
+            	name="things"
+            	v-model="selected"
+            	@change="changeSelected"
+            )
+              md-option(
+              	v-for="(row, rowIndex) in things()"
+              	v-bind:key="rowIndex"
+              	v-bind:value="row.thingName"
+              ) {{ row.thingName }}
           md-input-container
             label Desired
             md-input(
