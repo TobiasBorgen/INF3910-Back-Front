@@ -31,10 +31,10 @@ md-layout.widget-summary(md-flex="100")
 						| {{ thing('thingName') }}
 					div
 						span Date created:
-						| {{ thing('createdAt') }}
+						| {{ formatDate(thing('createdAt')) }}
 					div
 						span Last heard from:
-						| {{ thing('shadow', 'timestamp') }}
+						| {{ lastHeardFrom() }}
 
 			md-card-media(md-medium)
 				md-image(md-src="https://vuematerial.github.io/assets/card-weather.png")
@@ -57,6 +57,20 @@ export default {
 	methods: {
 		changeSelected (selected) {
 			this.$store.commit(this.t.APP_SET_THING_NAME, selected)
+		},
+		formatDate (time) {
+			const day = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+			const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+			let date = new Date(time)
+			return `${day[date.getDay()]}, ${date.getDate()} ${month[date.getMonth()]} ${date.getFullYear()}`
+		},
+		lastHeardFrom () {
+			const timestamp = parseInt(this.thing('shadow', 'timestamp')) * 1000
+			let str = this.formatDate(timestamp)
+
+			let date = new Date(timestamp)
+			return `${str} - ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`
 		}
 	}
 }

@@ -6,4 +6,4 @@ Vue.use(VueResource)
 
 import './styles'
 import './mixin'
-//import './socket'
+import './socket'

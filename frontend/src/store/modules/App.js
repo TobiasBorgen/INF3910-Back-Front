@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import * as t from '@/store/mutation-types'
-import {CC} from '@/lib/CloudConnect'
 
 const state = {
 	ccInited: false,

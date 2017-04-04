@@ -50,7 +50,7 @@ export default {
 			if (!speed) return
 				
 			this.logs.unshift({
-				time: `${('0' + now.getHours()).slice(-2)}:${('0' + now.getMinutes()).slice(-2)}:${('0' + now.getSeconds()).slice(-2)}`,
+				time: `${('0' + now.getHours()).slice(-2)}:${('0' +now.getMinutes()).slice(-2)}:${('0' + now.getSeconds()).slice(-2)}`,
 				data: this.reported('s')
 			})
 		}
