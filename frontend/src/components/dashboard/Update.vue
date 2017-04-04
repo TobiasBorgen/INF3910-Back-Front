@@ -8,6 +8,13 @@
             .md-title Update Stations
         md-card-content
           md-input-container
+            label(for="things") Select Station
+              md-select(
+              	name="things"
+              	v-model="selected"
+              	@change="changeSelected"
+              )
+          md-input-container
             label Desired
             md-input(
               type="number"
@@ -42,6 +49,12 @@ export default {
     return {
       desired: 30
     }
+  },
+
+  methods: {
+		changeSelected (selected) {
+			this.$store.commit(this.t.APP_SET_THING_NAME, selected)
+		}
   }
 
 }
