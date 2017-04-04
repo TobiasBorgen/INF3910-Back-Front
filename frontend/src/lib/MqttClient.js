@@ -33,6 +33,11 @@ class MqttClient {
 		this.ctx.showSnackbar('MQTT: closed')
 	}
 
+	publish(thing, message) {
+		const topic = `thing-update${this.ctx.$store.state['Thing'].thingDomain}${thing}`
+		this.mqtt.publish(topic, message)
+	}
+
 	error (e) {
 		this.ctx.showSnackbar(`MQTT: ${e}`)
 	}
