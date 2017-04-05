@@ -3,7 +3,7 @@ export const CONFIG = {
 	/* Socket.io configuration.
 	 * Remote server address and port.
 	 */
-	SOCKET_REMOTE: 'ptunstad.me',
+	SOCKET_REMOTE: 'localhost',
 	SOCKET_PORT: 3000,
 
 	/* Cloud Connect configuration.

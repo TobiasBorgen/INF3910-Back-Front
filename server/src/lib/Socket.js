@@ -9,6 +9,7 @@ class Socket {
 
 		this.io.on('connection', (client) => {
 			client.on('init', () => this.onInit(client))
+			client.on('getStations', () => this.sendStations(client))
 		})
 	}
 	
@@ -22,6 +23,10 @@ class Socket {
 	
 	onInit (client, data) {
 		client.emit('init', Buffer.getData())
+	}
+
+	sendStations(client) {
+		client.emit('stations', Buffer.stations)
 	}
 }
 

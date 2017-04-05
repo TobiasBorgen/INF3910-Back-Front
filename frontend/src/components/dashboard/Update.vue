@@ -18,7 +18,7 @@
               	v-for="(row, rowIndex) in things()"
               	v-bind:key="rowIndex"
               	v-bind:value="row.thingName"
-              ) {{ row.thingName }}
+              ) {{ translateThingName(row.thingName) }}
           md-input-container
             label Desired
             md-input(
@@ -41,7 +41,7 @@
       card-loader(:loading="!thingsInited")
         md-card-content
           md-list
-            md-subheader {{ row.thingName }} reported
+            md-subheader {{ translateThingName(row.thingName) }} reported
             md-list-item.green
               md-icon access_time
               span 30s
@@ -119,9 +119,15 @@ export default {
     getTempChecked () {
       const format = this.reported('f')
       return (format <= 4 && format != 1)
+    },
+    translateThingName (thing) {
+      for (var key in this.$store.state['App'].stations){
+        if(key == thing) 
+          return this.$store.state['App'].stations[key]
+      }
+      return thing
     }
-    
-  }
+	}
 
 }
 </script>

@@ -4,7 +4,8 @@ import * as t from '@/store/mutation-types'
 const state = {
 	ccInited: false,
 	thingsInited: false,
-	thingName: null
+	thingName: null,
+	stations: {}
 }
 
 const mutations = {
@@ -16,6 +17,9 @@ const mutations = {
 	},
 	[t.APP_SET_THING_NAME] (state, thingName) {
 		state.thingName = thingName
+	},
+	[t.APP_SET_STATIONS] (state, stations) {
+		state.stations = stations
 	}
 }
 

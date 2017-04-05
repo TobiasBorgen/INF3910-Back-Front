@@ -14,7 +14,7 @@ md-layout.widget-summary(md-flex="100")
 						v-for="(row, rowIndex) in things()"
 						v-bind:key="rowIndex"
 						v-bind:value="row.thingName"
-					) {{ row.thingName }}
+					) {{ translateThingName(row.thingName) }}
 		md-card-header
 			md-card-header-text
 				.md-title Summary
@@ -71,7 +71,14 @@ export default {
 
 			let date = new Date(timestamp)
 			return `${str} - ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`
-		}
+		},
+		translateThingName (thing) {
+			for (var key in this.$store.state['App'].stations){
+				if(key == thing) 
+				return this.$store.state['App'].stations[key]
+			}
+			return thing
+    	}
 	}
 }
 </script>

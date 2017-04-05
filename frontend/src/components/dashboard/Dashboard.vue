@@ -91,7 +91,9 @@ export default {
 		}
 	},
 	mounted () {
+		this.$socket.emit('getStations')
 		this.initDashboard()
+
 	},
 	methods: {
 		initDashboard () {
@@ -123,9 +125,17 @@ export default {
 					})
 				})
 		}
+	},
+	sockets: {
+		stations (stations) {
+			this.$store.commit(this.t.APP_SET_STATIONS, stations)
+
+		}
 	}
 }
 </script>
+
+
 
 <style lang="scss" scoped>
 .dashboard {

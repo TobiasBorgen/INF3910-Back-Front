@@ -28,7 +28,7 @@ md-layout.widget-things(md-flex="100")
 						md-auto-select
 						md-selection
 					)
-						md-table-cell {{ row.thingName }}
+						md-table-cell {{ translateThingName(row.thingName) }}
 						md-table-cell {{ row.createdAt }}
 						md-table-cell {{ row.domainTopic + row.thingName }}
 	md-dialog-prompt(
@@ -80,7 +80,14 @@ export default {
 						this.showSnackbar(`CC: ${error}`)
 					})
 			}
-		}
+		},
+		translateThingName (thing) {
+			for (var key in this.$store.state['App'].stations){
+				if(key == thing) 
+				return this.$store.state['App'].stations[key]
+			}
+			return thing
+    	}
 	}
 }
 </script>
