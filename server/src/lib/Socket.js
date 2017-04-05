@@ -10,6 +10,8 @@ class Socket {
 		this.io.on('connection', (client) => {
 			client.on('init', () => this.onInit(client))
 			client.on('getStations', () => this.sendStations(client))
+			client.on('rename', (data) => Buffer.renameStation(client, data))
+			
 		})
 	}
 	

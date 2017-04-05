@@ -29,7 +29,12 @@
           md-checkbox(id="cbWind" name="Wind" v-model="windChecked") Wind
           md-checkbox(id="cbDir" name="Dir" v-model="dirChecked") Direction
           md-checkbox(id="cbTemp" name="Temp" v-model="tempChecked") Temperature
-
+        md-subheader Rename Station
+          md-input-container
+              label {{translateThingName(this.selected)}}
+                md-input(v-model="renameInput")
+          md-button(class="md-primary" @click.native="rename()") Rename
+    
     md-layout(
       v-for="(row, rowIndex) in things()"
       v-bind:key="rowIndex"
@@ -59,7 +64,9 @@ export default {
       desired: 30,
       windChecked: false,
       dirChecked: false,
-      tempChecked: false
+      tempChecked: false,
+      renameInput: null
+
     }
   },
   computed: {
@@ -126,7 +133,25 @@ export default {
           return this.$store.state['App'].stations[key]
       }
       return thing
-    }
+    },
+    rename() {
+      let oldname = this.translateThingName(this.selected)
+      if(this.renameInput == null){
+        this.showSnackbar('You must enter something to rename')
+        return
+      }
+      var jsonObj = {}
+      jsonObj[this.translateThingName(this.selected)] = this.renameInput
+      this.$socket.emit('rename', jsonObj)
+    }    
+	},
+	sockets: {
+		renameAck (message) {
+      if(message == 'ok')
+        this.$socket.emit('getStations')
+        this.showSnackbar('Station name updated')
+        this.renameInput = null
+		}
 	}
 
 }

@@ -56,6 +56,38 @@ class Buffer {
 		this.pushData(index, data)
 		return index
 	}
+	renameStation (client, data){
+		for (var key in data){
+			var name = key
+			var newname = data[key]
+		}
+		var existing = 0
+
+		/* Update stations in memory and in file*/
+		for (var key in this.stations){
+			if(this.stations[key] == name){
+				this.stations[key] = newname
+				existing = 1
+			}
+		}
+		/* If new thing, add to this stations */
+		if(existing == 0){
+			console.log('not existing')
+			this.stations[name] = newname
+		}
+
+		fs.writeFile('stations.json', JSON.stringify(this.stations, null, 2) , 'utf-8');
+
+		/* Update current buffer with new name */ 
+		for(var key in this.buffer){
+			if(key == name)
+				var measurements = this.buffer[key]
+				delete this.buffer[key]
+				this.buffer[newname] = measurements
+
+		}
+		client.emit('renameAck', 'ok')
+	}
 }
 
 module.exports = new Buffer
