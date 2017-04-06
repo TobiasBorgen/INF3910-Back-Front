@@ -5,7 +5,7 @@
       card-loader(:loading="!thingsInited")
         md-card-header
           md-card-header-text
-            .md-title Update Stations
+            .md-title Update Station
         md-card-content
           md-input-container
             label(for="things") Select Station
@@ -29,7 +29,10 @@
           md-checkbox(id="cbWind" name="Wind" v-model="windChecked") Wind
           md-checkbox(id="cbDir" name="Dir" v-model="dirChecked") Direction
           md-checkbox(id="cbTemp" name="Temp" v-model="tempChecked") Temperature
-        md-subheader Rename Station
+        md-card-header
+          md-card-header-text
+            .md-title Rename Station
+        md-card-content
           md-input-container
               label {{translateThingName(this.selected)}}
                 md-input(v-model="renameInput")
