@@ -13,7 +13,7 @@ md-layout.widget-measurements(
 			.middle
 				.temp {{ reported('t') }}°C
 				.speed {{ reported('s') }} m/s
-				.direction {{ reported('d') }}°
+				.direction {{ translateDegrees(reported('d')) }}
 </template>
 
 <script>
@@ -21,7 +21,31 @@ import CardLoader from '@/components/custom/CardLoader'
 
 export default {
 	name: 'WidgetMeasurements',
-	components: { CardLoader }
+	components: { CardLoader },
+	methods: {
+		translateDegrees(degrees) {
+			if(degrees <= 0)
+				return 'North'
+			else if(degrees <= 45)
+				return 'North East'
+			else if(degrees <= 90)
+				return 'East'
+			else if(degrees <= 135)
+				return 'South East'
+			else if(degrees <= 180)
+				return 'South'
+			else if(degrees <= 225)
+				return 'South West'
+			else if(degrees <= 270)
+				return 'West'
+			else if(degrees <= 315)
+				return 'North West'
+			else if(degrees <= 360)
+				return 'North'
+			else
+				return ' '
+		}
+	}
 }
 </script>
 

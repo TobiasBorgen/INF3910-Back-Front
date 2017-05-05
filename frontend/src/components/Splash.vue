@@ -32,7 +32,7 @@
 								md-table-cell {{ measurement.state.reported['s']}} m/s
 								//md-table-cell 0
 								//md-table-cell 0
-								md-table-cell {{ measurement.state.reported['d'] }} °
+								md-table-cell {{ translateDegrees(measurement.state.reported['d']) }}
 								md-table-cell {{ measurement.state.reported['t'] }} °C
 </template>
 
@@ -75,6 +75,28 @@ export default {
 			/* Make copy for ractivity (Vue doesn't see the changes) */
 			const copy = Object.assign({}, this.buffer)
 			this.buffer = copy
+		},
+		translateDegrees(degrees) {
+			if(degrees <= 0)
+				return 'North'
+			else if(degrees <= 45)
+				return 'North East'
+			else if(degrees <= 90)
+				return 'East'
+			else if(degrees <= 135)
+				return 'South East'
+			else if(degrees <= 180)
+				return 'South'
+			else if(degrees <= 225)
+				return 'South West'
+			else if(degrees <= 270)
+				return 'West'
+			else if(degrees <= 315)
+				return 'North West'
+			else if(degrees <= 360)
+				return 'North'
+			else
+				return ' '
 		}
 	},
 	sockets: {
@@ -85,7 +107,7 @@ export default {
 			this.bufferNew(data)
 		},
 		message ({topicName, data}) {
-			console.log(topicName, data)
+			//console.log(topicName, data)
 			this.bufferAdd(topicName, data)
 		}
 	}
