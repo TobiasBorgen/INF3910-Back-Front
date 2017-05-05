@@ -60,7 +60,7 @@ export default {
 				})
 				.catch(error => {
 					this.showSnackbar(error)
-					//this.loading = false
+					this.loading = false
 				})
 		}
 	}

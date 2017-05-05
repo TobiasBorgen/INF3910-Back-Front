@@ -79,6 +79,8 @@ export default {
 					.catch(error => {
 						this.showSnackbar(`CC: ${error}`)
 					})
+
+				this.$store.commit(this.t.APP_SET_THING_NAME, null)
 			}
 		},
 		translateThingName (thing) {
