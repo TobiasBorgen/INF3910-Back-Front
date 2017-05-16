@@ -75,6 +75,11 @@ const onMessage = (topic, message) => {
 	const data = JSON.parse(message)
 	logger.info(`-- MQTT: got message, [${topic}]\n\n`)
 
+	if(!data.state.reported || (!data.state.reported['s'] && !data.state.reported['d'] && !data.state.reported['t'])){
+		logger.info(`-- MQTT: Invalid message recieved, [${message}]\n\n`)
+		return
+	}
+
 	IO.onMessage(topic, data)
 }
 
