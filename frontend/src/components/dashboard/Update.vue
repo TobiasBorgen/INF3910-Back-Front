@@ -52,7 +52,7 @@
             md-subheader {{ translateThingName(row.thingName) }} reported
             md-list-item.green
               md-icon access_time
-              span 30s
+              span {{get_updated(row)}}
 </template>
 
 <script>
@@ -68,7 +68,8 @@ export default {
       windChecked: true,
       dirChecked: true,
       tempChecked: true,
-      renameInput: null
+      renameInput: null,
+      reporteds: []
 
     }
   },
@@ -97,15 +98,14 @@ export default {
       
       return 'error'
     }
-
 	},
-
   methods: {
 		changeSelected (selected) {
 			this.$store.commit(this.t.APP_SET_THING_NAME, selected)
       this.windChecked = this.getWindChecked()
       this.dirChecked = this.getDirChecked()
       this.tempChecked = this.getTempChecked()
+      this.desired = this.reported('u')
 		},
     update () {
       var thing = this.selected
@@ -120,15 +120,15 @@ export default {
     },
     getWindChecked () {
       const format = this.reported('f')
-      return (format <= 5 && (format != 2 && format != 4))
+      return (format == 7 || format == 6 || format == 3 || format == 2)
     },
     getDirChecked () {
       const format = this.reported('f')
-      return (format <= 6 && (format != 3 && format != 4 && format != 5))
+      return (format == 7 || format == 5 || format == 3 || format == 1)
     },
     getTempChecked () {
       const format = this.reported('f')
-      return (format <= 4 && format != 1)
+      return (format == 7 || format == 6 || format == 5 || format == 4)
     },
     translateThingName (thing) {
       for (var key in this.$store.state['App'].stations){
@@ -146,7 +146,16 @@ export default {
       var jsonObj = {}
       jsonObj[this.translateThingName(this.selected)] = this.renameInput
       this.$socket.emit('rename', jsonObj)
-    }    
+    },
+    get_updated(data){
+
+      if(data['state']&& data.state['u']){
+        return data.state['u']
+      }else{
+        return 0
+      }
+
+    }
 	},
 	sockets: {
 		renameAck (message) {
