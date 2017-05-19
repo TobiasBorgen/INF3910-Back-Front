@@ -64,10 +64,10 @@ export default {
   components: { CardLoader },
   data () {
     return {
-      desired: 30,
-      windChecked: false,
-      dirChecked: false,
-      tempChecked: false,
+      desired: 0,
+      windChecked: true,
+      dirChecked: true,
+      tempChecked: true,
       renameInput: null
 
     }
@@ -78,22 +78,22 @@ export default {
     },
     getFormat() {
       if (this.windChecked == false && this.dirChecked == false && this.tempChecked == false)
-        return null
+        return 0
       
       if(this.windChecked && this.dirChecked && this.tempChecked)
-        return 0
+        return 7
       else if(this.windChecked && this.dirChecked)
-        return 1
-      else if(this.dirChecked && this.tempChecked)
-        return 2
-      else if(this.windChecked && this.tempChecked)
         return 3
+      else if(this.dirChecked && this.tempChecked)
+        return 5
+      else if(this.windChecked && this.tempChecked)
+        return 6
       else if(this.tempChecked)
         return 4
       else if(this.windChecked)
-        return 5
+        return 2
       else if(this.dirChecked)
-        return 6
+        return 1
       
       return 'error'
     }
