@@ -68,8 +68,7 @@ export default {
       windChecked: true,
       dirChecked: true,
       tempChecked: true,
-      renameInput: null,
-      reporteds: []
+      renameInput: null
 
     }
   },
