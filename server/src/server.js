@@ -30,7 +30,7 @@ CC.init().then(() => {
 		MQTT.init(CC.AWS.config)
 
 		/* Setup event handlers */
-		MQTT.client.on('reconnect',  ()               => onReconnect(CC))
+		MQTT.client.on('reconnect',  ()               => onReconnect())
 		MQTT.client.on('connect',    ()               => onConnect())
 		MQTT.client.on('message',    (topic, message) => onMessage(topic, message))
 		MQTT.client.on('close',      ()               => logger.warn('-- MQTT: connection closed'))
@@ -47,10 +47,10 @@ CC.init().then(() => {
  * credentials, update websocket credentials
  * and reconnect.
  */
-const onReconnect = (CloudConnect) => {
+const onReconnect = () => {
 	logger.warn('-- MQTT: reconnect')
 
-	CloudConnect.refreshCredentials().then(() => {
+	CC.refreshCredentials().then(() => {
 		MQTT.updateWebsocketCredentials(CC.AWS.config)
 	})
 	.catch(err => {

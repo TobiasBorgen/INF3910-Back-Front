@@ -18,9 +18,9 @@ class MQTTClient {
 	
 	updateWebsocketCredentials (config) {
 		this.client.updateWebsocketCredentials(
-			CC.AWS.config.credentials.accessKeyId,
-			CC.AWS.config.credentials.secretAccessKey,
-			CC.AWS.config.credentials.sessionToken
+			config.credentials.accessKeyId,
+			config.credentials.secretAccessKey,
+			config.credentials.sessionToken
 		)
 	}
 }
